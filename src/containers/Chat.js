@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Grid, Container, Paper } from '@material-ui/core';
 
 import FriendList from "../components/FriendList";
+import Message from "../components/Message";
+import InputBox from "../components/InputBox";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +31,9 @@ const Chat = () => {
                     <Grid item xs={12} sm={4} className={classes.sectionDesktop}>
                         <FriendList />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
-                        xs=12 sm=6
+                    <Grid item xs={12} sm={8} style={{ position:'relative' }}>
+                        <Message />
+                        <InputBox />
                     </Grid>
                 </Grid>
             </Paper>
