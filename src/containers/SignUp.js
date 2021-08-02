@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { signUp, all_users } from "../helpers/auth";
+// import { signUp, all_users } from "../helpers/auth";
 import { makeStyles } from "@material-ui/core/styles";
+// import { connect } from "react-redux";
 
 import {
   Avatar,
@@ -13,7 +14,6 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { connect } from "react-redux";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
@@ -67,7 +67,8 @@ function SignUp({ me }) {
     e.preventDefault();
     if (member.email !== "" && member.password !== "" && member.name !== "") {
       //connectCheck(me, false);
-      signUp(member, all_users);
+      // signUp(member, all_users);
+      console.log(member)
     }
   };
 
@@ -150,15 +151,6 @@ function SignUp({ me }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  authenticated: state.chats.authenticated,
-  loading: state.chats.loading,
-  me: state.chats.me,
-  //authenticated: state.auth.authenticated,
 
-  // userdata: state.chats.userdata,
-  // roomnumber: state.chats.roomnumber,
-  // me: state.chats.me,
-});
 
-export default connect(mapStateToProps, null)(SignUp);
+export default SignUp;
