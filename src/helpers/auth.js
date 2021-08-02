@@ -21,20 +21,6 @@ export function login_maintain(member) {
     });
 }
 
-//이메일 로그인 함수
-export function signIn(member) {
-  return fireauth
-    .signInWithEmailAndPassword(member.email, member.password)
-    .then(() => {
-      //dispatch({ type: "LOGIN_SUCCESS" });
-      console.log("signIn()로그인성공");
-    })
-    .catch((err) => {
-      //dispatch({ type: "LOGIN_ERROR", err });
-      console.log("signIn()실패");
-    });
-}
-
 //구글 로그인 기능
 export function signInWithGoogle() {
   const provider = new fire.auth.GoogleAuthProvider();
