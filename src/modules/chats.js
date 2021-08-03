@@ -1,5 +1,5 @@
 const RX_AUTHENTICATED = "menu/RX_AUTHENTICATED";
-const RX_SETUSERS = "menu/RX_SETUSERS";
+const RX_ALL_USERS = "menu/RX_ALL_USERS";
 const RX_ME = "menu/RX_ME";
 const RX_CONNECTED = "menu/RX_CONNECTED";
 const RX_ROOMLISTBOX = "menu/RX_ROOMLISTBOX";
@@ -12,8 +12,8 @@ export const rx_authenticated = (result) => ({
   result,
 });
 
-export const rx_setusers = (result) => ({
-  type: RX_SETUSERS,
+export const rx_all_users = (result) => ({
+  type: RX_ALL_USERS,
   result,
 });
 
@@ -64,7 +64,7 @@ function chats(state = initialState, action) {
         ...state,
         authenticated: action.result,
       };
-    case RX_SETUSERS:
+    case RX_ALL_USERS:
       return {
         ...state,
         all_users: action.result,

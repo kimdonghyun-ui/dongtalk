@@ -52,14 +52,16 @@ function App({ rx_authenticated, authenticated }) {
           component={Login}
         />
       </Switch>
-      <button
-        onClick={() => {
-          // connectCheck(false);
-          logout();
-        }}
-      >
-        로그아웃
-      </button>
+      {authenticated &&
+        <button
+          onClick={() => {
+            // connectCheck(false);
+            logout();
+          }}
+        >
+          로그아웃
+        </button>
+      }
     </HashRouter>
   );
 }

@@ -25,12 +25,39 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FriendList = () => {
+const FriendList = ({ title, data, event }) => {
     const classes = useStyles();
     return (
       <Box className={classes.root}>
-          <ListSubheader>전체 친구 리스트</ListSubheader>
+        <ListSubheader>{title}</ListSubheader>
+        
           <List className={classes.list}>
+            {data.length > 0 ? (
+              data.map((data, index) => (
+                <FriendItem
+                  key={index}
+                  img="https://material-ui.com/static/images/avatar/1.jpg"
+                  text={data.name}
+                  sub={data.email === undefined ? '1:1 대화방' : data.email}
+                  event={event}
+                />
+              ))
+            ) : (
+                <li>리스트가없습니다.</li>
+            )}  
+          </List>
+
+        
+
+
+
+
+
+
+
+
+
+          {/* <List className={classes.list}>
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현" sub="dongdong@stunitas.com" />
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현" sub="dongdong@stunitas.com" />
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현" sub="dongdong@stunitas.com" />
@@ -44,7 +71,7 @@ const FriendList = () => {
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현/박금주" sub="1:1 대화방" />
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현/박금주" sub="1:1 대화방" />
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현/박금주" sub="1:1 대화방" />
-          </List>
+          </List> */}
 
         </Box>
     );
