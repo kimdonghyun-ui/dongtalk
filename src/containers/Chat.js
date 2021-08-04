@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { fireauth, firedatabase } from "../services/firebase";
 
 import { connect } from "react-redux";
-import { rx_all_users, rx_me, rx_roomlistbox } from '../modules/chats'
+import { rx_all_users, rx_me, rx_myroomlist,rx_allroomlist } from '../modules/chats'
 
 import { CssBaseline, Grid, Container, Paper } from '@material-ui/core';
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
 import InputBox from "../components/InputBox";
+import { memo } from 'react';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,17 +24,44 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function nameFilter(all_users, uid) {
+  const erer = all_users.filter((data) => data.uid === uid);
+  return erer;
+}
 
-
-const Chat = ({rx_all_users, all_users, rx_me, rx_roomlistbox, my_room_list}) => {
+const Chat = ({rx_all_users, all_users, rx_me, me, rx_myroomlist, myroomlist, rx_allroomlist, allroomlist}) => {
     const classes = useStyles();
 
 
 
-  const handleFriend = () => {
-    console.log('handleFriend')
-    //roomCheck(all_users, me, you, rx_focusroom, rx_msglist);
-  };
+    const handleFriend = (you) => {
+        const data = [me.uid,you];
+        const data1 = [me.uid,you].sort();
+        console.log('handleFriend',data[0],data[1])
+
+        console.log(allroomlist)
+        let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
+        clone_allroomlist = clone_allroomlist.some((element) => 
+            JSON.stringify(element.user_uid.sort()) === JSON.stringify(data1)
+        )
+
+        if (!clone_allroomlist) {
+            var newPostKey = firedatabase.ref("room").push().key;
+            var postData = {
+                user_uid: [me.uid, you],
+                name: [
+                all_users.filter((data) => data.uid === me.uid)[0].name,
+                all_users.filter((data) => data.uid === you)[0].name,
+                ],
+                msg_key: newPostKey,
+            };
+            var updates = {};
+            updates["/room/" + newPostKey] = postData;
+            return firedatabase.ref().update(updates);
+        } else {
+            alert('이미 방이 존재합니다.')
+        }
+    };
 
   const handleRoom = () => {
     console.log('handleRoom')
@@ -62,11 +90,12 @@ const Chat = ({rx_all_users, all_users, rx_me, rx_roomlistbox, my_room_list}) =>
             if (snapshot.val() !== null) {
             let response = Object.values(snapshot.val());
             console.log("roomListBox", response);
+            rx_allroomlist(response);
 
             const found = response.filter((element) =>
                 element.user_uid.some(item => item === fireauth.currentUser.uid )
             );
-            rx_roomlistbox(found);
+            rx_myroomlist(found);
             console.log('found',found);
 
             }
@@ -85,8 +114,8 @@ console.log('all_users',all_users)
             <Paper className={classes.chat_wrap} elevation={1}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} sm={4} className={classes.sectionDesktop}>
-                            <FriendList title="전체 친구 리스트" data={all_users} event={ handleFriend } />
-                        <FriendList title="나의 방 리스트" data={ my_room_list } event={ handleRoom } />
+                        <FriendList title="전체 친구 리스트" data={all_users} event={ handleFriend } />
+                        <FriendList title="나의 방 리스트" data={ myroomlist } event={ handleRoom } />
                     </Grid>
                     <Grid item xs={12} sm={8} style={{ position:'relative' }}>
                         <Message />
@@ -102,7 +131,9 @@ console.log('all_users',all_users)
 
 const mapStateToProps = (state) => ({
     all_users: state.chats.all_users,
-    my_room_list: state.chats.my_room_list,
+    myroomlist: state.chats.myroomlist,
+    allroomlist: state.chats.allroomlist,
+    me: state.chats.me[0],
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -112,8 +143,11 @@ const mapDispatchToProps = (dispatch) => ({
     rx_me: (val) => {
         dispatch(rx_me(val));
     },
-    rx_roomlistbox: (val) => {
-        dispatch(rx_roomlistbox(val));
+    rx_myroomlist: (val) => {
+        dispatch(rx_myroomlist(val));
+    },
+    rx_allroomlist: (val) => {
+        dispatch(rx_allroomlist(val));
     },
 });
 

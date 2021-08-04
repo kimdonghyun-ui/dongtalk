@@ -38,11 +38,11 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const FriendItem = ({ img,text,sub,event }) => {
+const FriendItem = ({ img,text,sub,uid,event }) => {
     return (
             <ListItem
         button
-        onClick={()=>event()}
+        onClick={()=>event(uid)}
             >
               <ListItemAvatar>
                 <StyledBadge

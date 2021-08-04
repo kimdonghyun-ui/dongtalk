@@ -37,8 +37,9 @@ const FriendList = ({ title, data, event }) => {
                 <FriendItem
                   key={index}
                   img="https://material-ui.com/static/images/avatar/1.jpg"
-                  text={data.name}
+                  text={Array.isArray(data.name) ? data.name.map((item,index) => index > 0 ? `/${item}` : item) : data.name }
                   sub={data.email === undefined ? '1:1 대화방' : data.email}
+                  uid={data.uid}
                   event={event}
                 />
               ))

@@ -2,7 +2,8 @@ const RX_AUTHENTICATED = "menu/RX_AUTHENTICATED";
 const RX_ALL_USERS = "menu/RX_ALL_USERS";
 const RX_ME = "menu/RX_ME";
 const RX_CONNECTED = "menu/RX_CONNECTED";
-const RX_ROOMLISTBOX = "menu/RX_ROOMLISTBOX";
+const RX_MYROOMLIST = "menu/RX_MYROOMLIST";
+const RX_ALLROOMLIST = "menu/RX_ALLROOMLIST";
 const RX_MSGLIST = "menu/RX_MSGLIST";
 const RX_REMOVE = "menu/RX_REMOVE";
 const RX_FOCUSROOM = "menu/RX_FOCUSROOM";
@@ -27,8 +28,13 @@ export const rx_connected = (result) => ({
   result,
 });
 
-export const rx_roomlistbox = (result) => ({
-  type: RX_ROOMLISTBOX,
+export const rx_myroomlist = (result) => ({
+  type: RX_MYROOMLIST,
+  result,
+});
+
+export const rx_allroomlist = (result) => ({
+  type: RX_ALLROOMLIST,
   result,
 });
 
@@ -52,7 +58,8 @@ const initialState = {
   all_users: [],
   me: {},
   all_connected: "",
-  my_room_list: [],
+  myroomlist: [],
+  allroomlist: [],
   msg_list: [],
   focusroom: "",
 };
@@ -79,10 +86,15 @@ function chats(state = initialState, action) {
         ...state,
         all_connected: action.result,
       };
-    case RX_ROOMLISTBOX:
+    case RX_MYROOMLIST:
       return {
         ...state,
-        my_room_list: action.result,
+        myroomlist: action.result,
+      };
+    case RX_ALLROOMLIST:
+      return {
+        ...state,
+        allroomlist: action.result,
       };
     case RX_MSGLIST:
       return {
