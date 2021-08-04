@@ -61,12 +61,19 @@ export function logout() {
     });
 }
 
-
-
-
-
-
-
+//##### 메시지 보내기 #####
+export function sendChat(msg, focusroom) {
+  if (focusroom !== "") {
+    firedatabase.ref(`msg/${focusroom}`).push({
+      message: msg.message,
+      timestamp: msg.timestamp,
+      uid: msg.uid,
+      name: msg.name,
+    });
+  } else {
+    alert("방을 선택해주세요");
+  }
+} //sendChat
 
 // export function roomPush(all_users, me, you, rx_focusroom, rx_msglist) {
 //   var newPostKey = firedatabase.ref("room").push().key;
@@ -85,10 +92,6 @@ export function logout() {
 //   updates["/room/" + newPostKey] = postData;
 //   return firedatabase.ref().update(updates);
 // }
-
-
-
-
 
 // export function roomOpen() {
 //   firedatabase
@@ -133,11 +136,6 @@ export function logout() {
 //       }
 //     }); //firedatabase
 // };
-
-
-
-
-
 
 // export function roomCheck(all_users, me, you, rx_focusroom, rx_msglist) {
 //   console.log("all_users", all_users);
