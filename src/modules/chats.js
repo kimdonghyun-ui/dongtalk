@@ -94,6 +94,7 @@ function chats(state = initialState, action) {
     case RX_ALLROOMLIST:
       return {
         ...state,
+        // item.name.push(all_users.filter((data) => data.uid === item.uid)) 
         allroomlist: action.result,
       };
     case RX_MSGLIST:

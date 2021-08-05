@@ -41,24 +41,21 @@ const Chat = ({
 
   const handleFriend = (you) => {
     const data = [me.uid, you];
-    const data1 = [me.uid, you].sort();
+    const clone_data = [me.uid, you].sort();
     console.log("handleFriend", data[0], data[1]);
 
     console.log(allroomlist);
     let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
     clone_allroomlist = clone_allroomlist.some(
       (element) =>
-        JSON.stringify(element.user_uid.sort()) === JSON.stringify(data1)
+        JSON.stringify(element.user_uid.sort()) === JSON.stringify(clone_data)
     );
 
     if (!clone_allroomlist) {
       var newPostKey = firedatabase.ref("room").push().key;
       var postData = {
         user_uid: [me.uid, you],
-        name: [
-          all_users.filter((data) => data.uid === me.uid)[0].name,
-          all_users.filter((data) => data.uid === you)[0].name,
-        ],
+        name:[],
         msg_key: newPostKey,
       };
       var updates = {};
@@ -92,7 +89,7 @@ const Chat = ({
     firedatabase.ref("room").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         let response = Object.values(snapshot.val());
-        console.log("roomListBox", response);
+          console.log("roomListBox", response);
         rx_allroomlist(response);
 
         const found = response.filter((element) =>

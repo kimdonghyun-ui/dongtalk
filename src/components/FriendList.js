@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { connect } from "react-redux";
 
 import FriendItem from './FriendItem';
 
@@ -25,8 +26,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FriendList = ({ title, data, event }) => {
-    const classes = useStyles();
+
+
+
+const FriendList = ({ title, data, event, all_users }) => {
+  const classes = useStyles();
+  
+
+//   function hello(names) {
+
+    
+//     return (names !== undefined) && all_users.filter(data => data.uid === names);
+// }
+
     return (
       <Box className={classes.root}>
         <ListSubheader>{title}</ListSubheader>
@@ -37,8 +49,8 @@ const FriendList = ({ title, data, event }) => {
                 <FriendItem
                   key={index}
                   img="https://material-ui.com/static/images/avatar/1.jpg"
-                  text={Array.isArray(data.name) ? data.name.map((item,index) => index > 0 ? `/${item}` : item) : data.name }
-                  sub={data.email === undefined ? '1:1 대화방' : data.email}
+                  //text={Array.isArray(hello(data.uid)) ? data.name.map((item,index) => index > 0 ? `/${item}` : item) : hello(data.uid) }
+                  sub={hello(data.uid)}
                   uid={data.uid}
                   event={event}
                 />
@@ -78,4 +90,27 @@ const FriendList = ({ title, data, event }) => {
     );
 };
 
-export default FriendList;
+
+const mapStateToProps = (state) => ({
+  all_users: state.chats.all_users,
+  // myroomlist: state.chats.myroomlist,
+  // allroomlist: state.chats.allroomlist,
+  // me: state.chats.me[0],
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   rx_all_users: (val) => {
+//     dispatch(rx_all_users(val));
+//   },
+//   rx_me: (val) => {
+//     dispatch(rx_me(val));
+//   },
+//   rx_myroomlist: (val) => {
+//     dispatch(rx_myroomlist(val));
+//   },
+//   rx_allroomlist: (val) => {
+//     dispatch(rx_allroomlist(val));
+//   },
+// });
+
+export default connect(mapStateToProps, null)(FriendList);
