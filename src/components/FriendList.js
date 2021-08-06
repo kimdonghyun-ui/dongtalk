@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useEffect } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { connect } from "react-redux";
 
 import FriendItem from './FriendItem';
 
-import {
-    Box,
-  List,
-    Divider
-} from '@material-ui/core';
+import { Box,List } from '@material-ui/core';
 
 
 
@@ -32,13 +29,24 @@ const useStyles = makeStyles((theme) => ({
 const FriendList = ({ title, data, event, all_users }) => {
   const classes = useStyles();
   
+    function uid_name(names) {
+      return (names !== undefined) && (all_users.length > 0 && all_users.filter(data => data.uid === names)[0].name);
+    }
 
-//   function hello(names) {
+    useEffect(() => {
+    console.log("[표시]FriendList.js");
 
-    
-//     return (names !== undefined) && all_users.filter(data => data.uid === names);
-// }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+  
+  
+  
+  
+  
+  
+  
+  
     return (
       <Box className={classes.root}>
         <ListSubheader>{title}</ListSubheader>
@@ -49,9 +57,10 @@ const FriendList = ({ title, data, event, all_users }) => {
                 <FriendItem
                   key={index}
                   img="https://material-ui.com/static/images/avatar/1.jpg"
-                  //text={Array.isArray(hello(data.uid)) ? data.name.map((item,index) => index > 0 ? `/${item}` : item) : hello(data.uid) }
-                  sub={hello(data.uid)}
+                  text={Array.isArray(data.uid) ? data.uid.map((item,index) => index > 0 ? `/${uid_name(item)}` : uid_name(item)) : uid_name(data.uid) }
+                  sub={data.email === undefined ? '1:1 대화방' : data.email}
                   uid={data.uid}
+                  msg_key={data.msg_key}
                   event={event}
                 />
               ))
@@ -59,16 +68,6 @@ const FriendList = ({ title, data, event, all_users }) => {
                 <li>리스트가없습니다.</li>
             )}  
           </List>
-
-        
-
-
-
-
-
-
-
-
 
           {/* <List className={classes.list}>
             <FriendItem img="https://material-ui.com/static/images/avatar/1.jpg" text="김동현" sub="dongdong@stunitas.com" />
@@ -93,9 +92,6 @@ const FriendList = ({ title, data, event, all_users }) => {
 
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
-  // myroomlist: state.chats.myroomlist,
-  // allroomlist: state.chats.allroomlist,
-  // me: state.chats.me[0],
 });
 
 // const mapDispatchToProps = (dispatch) => ({

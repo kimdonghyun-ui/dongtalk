@@ -10,7 +10,7 @@ import {
   rx_allroomlist,
 } from "../modules/chats";
 
-import { CssBaseline, Grid, Container, Paper } from "@material-ui/core";
+import { CssBaseline, Grid, Container, Paper, Divider } from "@material-ui/core";
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
@@ -48,13 +48,13 @@ const Chat = ({
     let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
     clone_allroomlist = clone_allroomlist.some(
       (element) =>
-        JSON.stringify(element.user_uid.sort()) === JSON.stringify(clone_data)
+        JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
     );
 
     if (!clone_allroomlist) {
       var newPostKey = firedatabase.ref("room").push().key;
       var postData = {
-        user_uid: [me.uid, you],
+        uid: [me.uid, you],
         name:[],
         msg_key: newPostKey,
       };
@@ -66,8 +66,8 @@ const Chat = ({
     }
   };
 
-  const handleRoom = () => {
-    console.log("handleRoom");
+  const handleRoom = (msg_key) => {
+    console.log(msg_key);
     //roomCheck(all_users, me, you, rx_focusroom, rx_msglist);
   };
 
@@ -93,7 +93,7 @@ const Chat = ({
         rx_allroomlist(response);
 
         const found = response.filter((element) =>
-          element.user_uid.some((item) => item === fireauth.currentUser.uid)
+          element.uid.some((item) => item === fireauth.currentUser.uid)
         );
         rx_myroomlist(found);
         console.log("found", found);
@@ -115,7 +115,8 @@ const Chat = ({
                 title="전체 친구 리스트"
                 data={all_users}
                 event={handleFriend}
-              />
+                          />
+              <Divider />
               <FriendList
                 title="나의 방 리스트"
                 data={myroomlist}
