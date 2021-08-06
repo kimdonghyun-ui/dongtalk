@@ -7,7 +7,9 @@ import {
   rx_all_users,
   rx_me,
   rx_myroomlist,
-  rx_allroomlist,
+rx_allroomlist,
+    rx_focusroom,
+  rx_msglist
 } from "../modules/chats";
 
 import { CssBaseline, Grid, Container, Paper, Divider } from "@material-ui/core";
@@ -35,7 +37,10 @@ const Chat = ({
   rx_myroomlist,
   myroomlist,
   rx_allroomlist,
-  allroomlist,
+    allroomlist,
+    rx_focusroom,
+    focusroom,
+  rx_msglist
 }) => {
   const classes = useStyles();
 
@@ -67,7 +72,7 @@ const Chat = ({
   };
 
   const handleRoom = (msg_key) => {
-    console.log(msg_key);
+      rx_focusroom(msg_key);
     //roomCheck(all_users, me, you, rx_focusroom, rx_msglist);
   };
 
@@ -99,10 +104,22 @@ const Chat = ({
         console.log("found", found);
       }
     });
+      
+      
+      
+    firedatabase.ref("msg").on("value", (snapshot) => {
+      if (snapshot.val() !== null) {
+        let response = snapshot.val();
+        rx_msglist(response);
+      }
+    });
+      
+      
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log("all_users", all_users);
+  console.log("focusroom", focusroom);
 
   return (
     <React.Fragment>
@@ -138,7 +155,8 @@ const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
   myroomlist: state.chats.myroomlist,
   allroomlist: state.chats.allroomlist,
-  me: state.chats.me[0],
+    me: state.chats.me[0],
+  focusroom: state.chats.focusroom
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -153,7 +171,13 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_allroomlist: (val) => {
     dispatch(rx_allroomlist(val));
-  },
+    },
+  rx_focusroom: (val) => {
+    dispatch(rx_focusroom(val));
+    },
+  rx_msglist: (val) => {
+    dispatch(rx_msglist(val));
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

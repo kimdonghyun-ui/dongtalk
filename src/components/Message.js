@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+// import { fireauth, firedatabase } from "../services/firebase";
+import {
+  rx_remove
+} from "../modules/chats";
 
+import { removeChats } from "../helpers/databox";
 
 import {
   Box,
@@ -51,61 +57,19 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Message = () => {
+const Message = ({ focusroom, rx_remove, msglist }) => {
     const classes = useStyles();
-    const [msg_list, setMsg_list] = useState([
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-      },
-        
-        {
-            message: '메롱',
-            name: '김동현',
-            timestamp: '23232',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV"
-        },
-        {
-            message: '메롱1',
-            name: '김동현1',
-            timestamp: '232321',
-            uid:"JvqEv4KxyOWOpsoTzA0Bl44BV1"
-        }
-  ]);
+    const [msg_list, setMsg_list] = useState([]);
+    console.log('Message-focusroom',focusroom)
 
 
+    useEffect(() => {
+      console.log("[표시]Message.js");
+      setMsg_list((msglist && focusroom) && ( msglist[focusroom] ? Object.values(msglist[focusroom]) : ''  ));
+      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [msglist,focusroom]);
+  
   return (
     <Box style={{ height:'577px',overflowY:'scroll',paddingBottom: '15%',}}>
         <List className={classes.listBox}>
@@ -156,7 +120,7 @@ const Message = () => {
                           ? "none"
                           : "inline-flex",
                     }}
-                    onClick={() => console.log('삭제버튼')}
+                    onClick={() => removeChats(focusroom, data.key, rx_remove)}
                   >
                     삭제
                   </Button>
@@ -171,4 +135,16 @@ const Message = () => {
     );
 };
 
-export default Message;
+
+const mapStateToProps = (state) => ({
+  focusroom: state.chats.focusroom,
+  msglist: state.chats.msglist
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  rx_remove: (val) => {
+    dispatch(rx_remove(val));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Message);

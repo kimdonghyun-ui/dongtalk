@@ -60,7 +60,7 @@ const initialState = {
   all_connected: "",
   myroomlist: [],
   allroomlist: [],
-  msg_list: [],
+  msglist: [],
   focusroom: "",
 };
 
@@ -100,12 +100,12 @@ function chats(state = initialState, action) {
     case RX_MSGLIST:
       return {
         ...state,
-        msg_list: action.result,
+        msglist: action.result,
       };
     case RX_REMOVE:
       return {
         ...state,
-        msg_list: state.msg_list.filter((todo) => todo.key !== action.key),
+        msglist: state.msglist.filter((todo) => todo.key !== action.key),
       };
     case RX_FOCUSROOM:
       return {

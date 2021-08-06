@@ -75,6 +75,15 @@ export function sendChat(msg, focusroom) {
   }
 } //sendChat
 
+//##### 메시지 삭제 #####
+export const removeChats = (room, key, rx_remove) => {
+  firedatabase.ref(`msg/${room}/${key}`).remove();
+  rx_remove(key);
+  console.log("메롱", room, key);
+};//removeChats
+
+
+
 // export function roomPush(all_users, me, you, rx_focusroom, rx_msglist) {
 //   var newPostKey = firedatabase.ref("room").push().key;
 //   rx_focusroom(newPostKey);

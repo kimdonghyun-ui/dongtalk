@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { fireauth } from "../services/firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button } from "@material-ui/core";
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InputBox = () => {
+const InputBox = ({ focusroom, me }) => {
   const classes = useStyles();
 
   const [msg, setMsg] = useState("");
@@ -37,20 +39,29 @@ const InputBox = () => {
   const handleSumbit = async (e) => {
     e.preventDefault();
     setMsg("");
-    // sendChat(
-    //   {
-    //     message: msg,
-    //     timestamp: Date.now(),
-    //     uid: fireauth.currentUser.uid,
-    //     name:
-    //       fireauth.currentUser.displayName === null
-    //         ? me.name
-    //         : fireauth.currentUser.displayName,
-    //   },
-    //   focusroom
-    // );
+    sendChat(
+      {
+        message: msg,
+        timestamp: Date.now(),
+        uid: fireauth.currentUser.uid,
+        name:
+          fireauth.currentUser.displayName === null
+            ? me.name
+            : fireauth.currentUser.displayName,
+      },
+      focusroom
+    );
 
-    console.log(msg);
+    console.log(      {
+        message: msg,
+        timestamp: Date.now(),
+        uid: fireauth.currentUser.uid,
+        name:
+          fireauth.currentUser.displayName === null
+            ? me.name
+            : fireauth.currentUser.displayName,
+      },
+      focusroom);
   };
 
   return (
@@ -77,4 +88,15 @@ const InputBox = () => {
   );
 };
 
-export default InputBox;
+const mapStateToProps = (state) => ({
+  focusroom: state.chats.focusroom,
+  me: state.chats.me[0],
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   rx_msglist: (val) => {
+//     dispatch(rx_msglist(val));
+//   },
+// });
+
+export default connect(mapStateToProps, null)(InputBox);
