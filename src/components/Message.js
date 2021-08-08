@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { rx_remove } from "../modules/chats";
 
 import { removeChats } from "../helpers/databox";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 import {
   Box,
@@ -17,6 +18,8 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
+
+import FriendAdd from "./FriendAdd";
 
 const useStyles = makeStyles((theme) => ({
   lBox: {
@@ -62,6 +65,10 @@ const Message = ({ focusroom, rx_remove, msglist }) => {
 
   return (
     <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }}>
+      <ListSubheader>
+        하하하
+        <FriendAdd />
+      </ListSubheader>
       <List className={classes.listBox}>
         {msglist.length > 0 ? (
           msglist.map((data, index) => (
