@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { fireauth, firedatabase } from "../services/firebase";
 
@@ -7,12 +7,18 @@ import {
   rx_all_users,
   rx_me,
   rx_myroomlist,
-rx_allroomlist,
-    rx_focusroom,
-  rx_msglist
+  rx_allroomlist,
+  rx_focusroom,
+  rx_msglist,
 } from "../modules/chats";
 
-import { CssBaseline, Grid, Container, Paper, Divider } from "@material-ui/core";
+import {
+  CssBaseline,
+  Grid,
+  Container,
+  Paper,
+  Divider,
+} from "@material-ui/core";
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
@@ -37,12 +43,13 @@ const Chat = ({
   rx_myroomlist,
   myroomlist,
   rx_allroomlist,
-    allroomlist,
-    rx_focusroom,
-    focusroom,
-  rx_msglist
+  allroomlist,
+  rx_focusroom,
+  focusroom,
+  rx_msglist,
 }) => {
   const classes = useStyles();
+  const [msgs, setMsg] = useState([]);
 
   const handleFriend = (you) => {
     const data = [me.uid, you];
@@ -60,7 +67,7 @@ const Chat = ({
       var newPostKey = firedatabase.ref("room").push().key;
       var postData = {
         uid: [me.uid, you],
-        name:[],
+        name: [],
         msg_key: newPostKey,
       };
       var updates = {};
@@ -72,7 +79,7 @@ const Chat = ({
   };
 
   const handleRoom = (msg_key) => {
-      rx_focusroom(msg_key);
+    rx_focusroom(msg_key);
     //roomCheck(all_users, me, you, rx_focusroom, rx_msglist);
   };
 
@@ -94,7 +101,7 @@ const Chat = ({
     firedatabase.ref("room").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         let response = Object.values(snapshot.val());
-          console.log("roomListBox", response);
+        console.log("roomListBox", response);
         rx_allroomlist(response);
 
         const found = response.filter((element) =>
@@ -104,22 +111,22 @@ const Chat = ({
         console.log("found", found);
       }
     });
-      
-      
-      
+
     firedatabase.ref("msg").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         let response = snapshot.val();
-        rx_msglist(response);
+        setMsg(response);
       }
     });
-      
-      
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log("all_users", all_users);
   console.log("focusroom", focusroom);
+  useEffect(() => {
+    msgs && focusroom && rx_msglist(Object.values(msgs[focusroom]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msgs, focusroom]);
 
   return (
     <React.Fragment>
@@ -132,7 +139,7 @@ const Chat = ({
                 title="전체 친구 리스트"
                 data={all_users}
                 event={handleFriend}
-                          />
+              />
               <Divider />
               <FriendList
                 title="나의 방 리스트"
@@ -155,8 +162,8 @@ const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
   myroomlist: state.chats.myroomlist,
   allroomlist: state.chats.allroomlist,
-    me: state.chats.me[0],
-  focusroom: state.chats.focusroom
+  me: state.chats.me[0],
+  focusroom: state.chats.focusroom,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -171,13 +178,13 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_allroomlist: (val) => {
     dispatch(rx_allroomlist(val));
-    },
+  },
   rx_focusroom: (val) => {
     dispatch(rx_focusroom(val));
-    },
+  },
   rx_msglist: (val) => {
     dispatch(rx_msglist(val));
-    }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

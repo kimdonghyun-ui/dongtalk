@@ -64,12 +64,19 @@ export function logout() {
 //##### 메시지 보내기 #####
 export function sendChat(msg, focusroom) {
   if (focusroom !== "") {
-    firedatabase.ref(`msg/${focusroom}`).push({
+    var newPostKey = firedatabase.ref(`msg/${focusroom}`).push().key;
+
+    var postData = {
       message: msg.message,
       timestamp: msg.timestamp,
       uid: msg.uid,
+      key: newPostKey,
       name: msg.name,
-    });
+    };
+
+    var updates = {};
+    updates[`msg/${focusroom}/${newPostKey}`] = postData;
+    return firedatabase.ref().update(updates);
   } else {
     alert("방을 선택해주세요");
   }
@@ -80,9 +87,7 @@ export const removeChats = (room, key, rx_remove) => {
   firedatabase.ref(`msg/${room}/${key}`).remove();
   rx_remove(key);
   console.log("메롱", room, key);
-};//removeChats
-
-
+}; //removeChats
 
 // export function roomPush(all_users, me, you, rx_focusroom, rx_msglist) {
 //   var newPostKey = firedatabase.ref("room").push().key;
