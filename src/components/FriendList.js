@@ -8,6 +8,7 @@ import FriendItem from './FriendItem';
 
 import { Box,List } from '@material-ui/core';
 
+import { me_connected } from "../helpers/databox";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const FriendList = ({ title, data, event, all_users }) => {
+const FriendList = ({ title, data, event, all_users, all_connected }) => {
   const classes = useStyles();
   
     function uid_name(names) {
@@ -56,6 +57,7 @@ const FriendList = ({ title, data, event, all_users }) => {
               data.map((data, index) => (
                 <FriendItem
                   key={index}
+                  invisible={!me_connected(all_connected, data.uid)}
                   img="https://material-ui.com/static/images/avatar/1.jpg"
                   text={Array.isArray(data.uid) ? data.uid.map((item,index) => index > 0 ? `/${uid_name(item)}` : uid_name(item)) : uid_name(data.uid) }
                   sub={data.email === undefined ? '1:1 대화방' : data.email}
@@ -92,6 +94,7 @@ const FriendList = ({ title, data, event, all_users }) => {
 
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
+  all_connected: state.chats.all_connected
 });
 
 // const mapDispatchToProps = (dispatch) => ({

@@ -1,4 +1,4 @@
-import { fireauth, firedatabase, fire } from "../services/firebase";
+import { fireauth, firedatabase } from "../services/firebase";
 
 //회원가입 함수
 export function signUp(member) {
@@ -89,112 +89,56 @@ export const removeChats = (room, key, rx_remove) => {
   console.log("메롱", room, key);
 }; //removeChats
 
-// export function roomPush(all_users, me, you, rx_focusroom, rx_msglist) {
-//   var newPostKey = firedatabase.ref("room").push().key;
-//   rx_focusroom(newPostKey);
-//   getMsg(newPostKey, rx_msglist);
-//   var postData = {
-//     user_uid: [me, you],
-//     name: [
-//       nameFilter(all_users, me)[0].name,
-//       nameFilter(all_users, you)[0].name,
-//     ],
-//     msg_key: newPostKey,
-//   };
 
-//   var updates = {};
-//   updates["/room/" + newPostKey] = postData;
-//   return firedatabase.ref().update(updates);
-// }
+//##########################################################
+//########### 실시간 접속여부 관련된 함수들 ################
+//##########################################################
+export function connected(authenticated) {
+  if (authenticated === true) {
+    var userUid = fireauth.currentUser.uid;
+    var myConnectionsRef = firedatabase.ref(`UsersConnection/${userUid}`);
+    var connectedRef = firedatabase.ref(".info/connected");
+    connectedRef.on("value", (snap) => {
+      if (snap.val() === true) {
+        console.log("connected");
+        myConnectionsRef.set({
+          connection: true,
+          uid: userUid,
+        });
+      } else {
+        console.log("not connected");
+        myConnectionsRef.set({
+          connection: false,
+          uid: userUid,
+        });
+      }
+    });
+    myConnectionsRef.onDisconnect().set({ connection: false, uid: userUid });
+  }
+}
 
-// export function roomOpen() {
-//   firedatabase
-//     .ref("room")
-//     .once("value")
-//     .then((snapshot) => {
-//       if (snapshot.val() === null) {
-//         console.log("room에 데이터가 null인경우");
-//         //roomPush(all_users, me, you, rx_focusroom, rx_msglist);
-//       } else if (me === you) {
-//         console.log("me === you 즉 내가 나를 클릭한경우");
-//         let response = Object.values(snapshot.val());
-//         const found = response.filter(
-//           (element) => element.user_uid[0] === me && element.user_uid[1] === you
-//         );
-//         found.length === 0 &&
-//           //roomPush(all_users, me, you, rx_focusroom, rx_msglist); //동일한 방 열리는거 방지용
-//       } else {
-//         console.log("방생성");
+export function connectValue(rx_connected) {
+  //firebase 에서 connect 안의 데이터전부를 불러와서 리덕스(rx_connected)에 넣어주기
+  // console.log("fireauth.currentUser.uid", fireauth.currentUser.uid);
+  firedatabase.ref(`UsersConnection`).on("value", (snapshot) => {
+    console.log("sfajklas", Object.values(snapshot.val()));
+    rx_connected(Object.values(snapshot.val()));
+  });
+}
 
-//         console.log("once1", snapshot.val());
-//         console.log("once2", Object.values(snapshot.val()));
-
-//         function findMe(element) {
-//           if (element === me) {
-//             return true;
-//           }
-//         }
-//         function findYou(element) {
-//           if (element === you) {
-//             return true;
-//           }
-//         }
-
-//         let response = Object.values(snapshot.val());
-
-//         const found = response
-//           .filter((element) => element.user_uid.some(findMe))
-//           .filter((element) => element.user_uid.some(findYou));
-//         found.length === 0 &&
-//           roomPush(all_users, me, you, rx_focusroom, rx_msglist);
-//       }
-//     }); //firedatabase
-// };
-
-// export function roomCheck(all_users, me, you, rx_focusroom, rx_msglist) {
-//   console.log("all_users", all_users);
-//   console.log("me", me);
-//   console.log("you", you);
-
-//   firedatabase
-//     .ref("room")
-//     .once("value")
-//     .then((snapshot) => {
-//       if (snapshot.val() === null) {
-//         console.log("room에 데이터가 null인경우");
-//         //roomPush(all_users, me, you, rx_focusroom, rx_msglist);
-//       } else if (me === you) {
-//         console.log("me === you 즉 내가 나를 클릭한경우");
-//         let response = Object.values(snapshot.val());
-//         const found = response.filter(
-//           (element) => element.user_uid[0] === me && element.user_uid[1] === you
-//         );
-//         found.length === 0 &&
-//           //roomPush(all_users, me, you, rx_focusroom, rx_msglist); //동일한 방 열리는거 방지용
-//       } else {
-//         console.log("방생성");
-
-//         console.log("once1", snapshot.val());
-//         console.log("once2", Object.values(snapshot.val()));
-
-//         function findMe(element) {
-//           if (element === me) {
-//             return true;
-//           }
-//         }
-//         function findYou(element) {
-//           if (element === you) {
-//             return true;
-//           }
-//         }
-
-//         let response = Object.values(snapshot.val());
-
-//         const found = response
-//           .filter((element) => element.user_uid.some(findMe))
-//           .filter((element) => element.user_uid.some(findYou));
-//         found.length === 0 &&
-//           roomPush(all_users, me, you, rx_focusroom, rx_msglist);
-//       }
-//     }); //firedatabase
-// } //roomCheck
+export function me_connected(all_connected, uid) {
+  //실제 화면단 포문 도는곳에
+  //all_connected:리덕스의 all_connected 를 넣어주고
+  //uid:리덕의 all_users가 포문 돌면서 하나하나 접근할때 있는 uid값
+  if (all_connected !== "") {
+    // console.log("######################################");
+    // console.log("all_connected", all_connected);
+    // console.log("uid", uid);
+    const found = all_connected.filter((element) => element.uid === uid);
+    // console.log(
+    //   "foundfoundfoundfoundfoundfoundfoundfoundfoundfoundfoundfound",
+    //   found
+    // );
+    return found.length > 0 && found[0].connection;
+  }
+}

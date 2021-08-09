@@ -10,6 +10,7 @@ import {
   rx_allroomlist,
   rx_focusroom,
   rx_msglist,
+  rx_connected
 } from "../modules/chats";
 
 import {
@@ -19,6 +20,10 @@ import {
   Paper,
   Divider,
 } from "@material-ui/core";
+
+import { connectValue } from "../helpers/databox";
+import { login_maintain } from "../helpers/auth";
+
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
@@ -47,6 +52,7 @@ const Chat = ({
   rx_focusroom,
   focusroom,
   rx_msglist,
+  rx_connected,
 }) => {
   const classes = useStyles();
   const [msgs, setMsg] = useState([]);
@@ -86,6 +92,8 @@ const Chat = ({
   useEffect(() => {
     console.log("[표시]Chat.js");
 
+    connectValue(rx_connected);
+
     firedatabase.ref("all_users").on("value", (snapshot) => {
       let response = Object.values(snapshot.val());
       rx_all_users(response);
@@ -95,6 +103,7 @@ const Chat = ({
         data.uid.includes(fireauth.currentUser.uid)
       );
       rx_me(me);
+      login_maintain(me[0]);
       console.log("me", me);
     });
 
@@ -185,6 +194,12 @@ const mapDispatchToProps = (dispatch) => ({
   rx_msglist: (val) => {
     dispatch(rx_msglist(val));
   },
+  rx_connected: (val) => {
+    dispatch(rx_connected(val));
+  },
+  login_maintain: (val) => {
+    dispatch(login_maintain(val));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

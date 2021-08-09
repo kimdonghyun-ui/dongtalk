@@ -38,7 +38,8 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const FriendItem = ({ img,text,sub,uid,msg_key,event }) => {
+const FriendItem = ({ img, text, sub, uid, msg_key, invisible, event }) => {
+
     return (
             <ListItem
         button
@@ -46,7 +47,7 @@ const FriendItem = ({ img,text,sub,uid,msg_key,event }) => {
             >
               <ListItemAvatar>
                 <StyledBadge
-                  invisible={!true}
+                  invisible={invisible}
                   overlap="circular"
                   anchorOrigin={{
                     vertical: "bottom",

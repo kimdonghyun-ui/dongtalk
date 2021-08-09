@@ -2,7 +2,7 @@ import { fireauth, firedatabase, fire } from "../services/firebase";
 
 /* 로그인 유지 (브라우져 닫으면 로그인 유지 풀림) */
 export function login_maintain(member) {
-  console.log(member);
+    console.log('member',member);
   fireauth
     .setPersistence(fire.auth.Auth.Persistence.SESSION)
     .then(() => {

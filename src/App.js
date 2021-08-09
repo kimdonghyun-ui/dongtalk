@@ -4,7 +4,7 @@ import { fireauth } from "./services/firebase";
 
 import { connect } from "react-redux";
 import { rx_authenticated } from "./modules/chats";
-import { logout } from "./helpers/databox";
+import { logout, connected } from "./helpers/databox";
 
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
@@ -20,12 +20,14 @@ function App({ rx_authenticated, authenticated }) {
         //로그인상태---
         console.log("App/로그인", user);
         //#########################
+        connected(true);
         rx_authenticated(true); //현재 로그인 여부 파악을 위한 값
         //#########################
       } else {
         //로그아웃상태---
         console.log("App/로그아웃", user);
         //#########################
+        connected(false);
         rx_authenticated(false); //현재 로그인 여부 파악을 위한 값
         //#########################
       }
