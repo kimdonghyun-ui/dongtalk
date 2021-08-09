@@ -67,7 +67,9 @@ const Message = ({ focusroom, rx_remove, msglist }) => {
     <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }}>
       <ListSubheader>
         하하하
-        <FriendAdd />
+        {focusroom !== "" &&
+          <FriendAdd />
+        }
       </ListSubheader>
       <List className={classes.listBox}>
         {msglist.length > 0 ? (

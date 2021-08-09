@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { fireauth, firedatabase } from "../services/firebase";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
@@ -25,16 +27,38 @@ const useStyles = makeStyles({
 
 function SimpleDialog(props) {
   const classes = useStyles();
-  const { onClose, selectedValue, open, data } = props;
+  const { onClose, selectedValue, open, data, focusroom } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
     console.log("까르르르궁", data);
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleListItemClick = (uid) => {
+    firedatabase.ref(`room/${focusroom}/uid`).once('value').then((snapshot) => {
+      const f_add = snapshot.val();
+  
+      if (!f_add.includes(uid)) {
+        //중복 친구가 없는경우 추가
+        f_add.push(uid);
+        firedatabase.ref(`room/${focusroom}`)
+          .update({
+            uid:f_add
+          })
+          .then(() => {
+            console.log('친추 완료', f_add);
+          })
+          .catch((error) => {
+            console.log('친추 실패');
+          });
+      } else {
+        //중복 친구가 있는경우 알럿 노출
+        alert('이미 추가된 친구입니다.');
+      };
+    });
+    onClose(false);
   };
+  
   console.log("까르르르궁", data);
   return (
     <Dialog
@@ -48,7 +72,7 @@ function SimpleDialog(props) {
           data.map((item, index) => (
             <ListItem
               button
-              //onClick={() => handleListItemClick(email)}
+              onClick={() => handleListItemClick(item.uid)}
               key={index}
             >
               <ListItemAvatar>
@@ -67,13 +91,13 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
+// SimpleDialog.propTypes = {
+//   onClose: PropTypes.func.isRequired,
+//   open: PropTypes.bool.isRequired,
+//   selectedValue: PropTypes.string.isRequired,
+// };
 
-const FriendAdd = ({ all_users }) => {
+const FriendAdd = ({ all_users,focusroom }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
@@ -93,6 +117,7 @@ const FriendAdd = ({ all_users }) => {
       </Button>
       <SimpleDialog
         data={all_users}
+        focusroom={focusroom}
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
@@ -106,7 +131,7 @@ const mapStateToProps = (state) => ({
   // myroomlist: state.chats.myroomlist,
   // allroomlist: state.chats.allroomlist,
   // me: state.chats.me[0],
-  // focusroom: state.chats.focusroom,
+  focusroom: state.chats.focusroom,
 });
 
 //   const mapDispatchToProps = (dispatch) => ({
