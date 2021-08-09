@@ -123,8 +123,8 @@ const Chat = ({
   }, []);
   console.log("all_users", all_users);
   console.log("focusroom", focusroom);
-  useEffect(() => {
-    msgs && focusroom && rx_msglist(Object.values(msgs[focusroom]));
+    useEffect(() => {
+        msgs && focusroom && rx_msglist( (msgs[focusroom] ? Object.values(msgs[focusroom]) : [] )  );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msgs, focusroom]);
 
