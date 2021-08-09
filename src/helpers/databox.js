@@ -90,6 +90,17 @@ export const removeChats = (room, key, rx_remove) => {
 }; //removeChats
 
 
+export const removeRooms = (key, me) => {
+  var mePassword = prompt("본인의 비밀번호를 입력하세요");
+  if (me.password === mePassword) {
+    firedatabase.ref(`room/${key}`).remove();
+    alert("삭제가 완료되었습니다.");
+  } else {
+    alert("비밀번호가 틀려서 삭제 불가합니다");
+  }
+};
+
+
 //##########################################################
 //########### 실시간 접속여부 관련된 함수들 ################
 //##########################################################

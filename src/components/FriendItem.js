@@ -1,12 +1,14 @@
 import React from 'react';
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
+import { removeRooms } from "../helpers/databox";
 
 import {
     ListItem,
     ListItemText,
     ListItemAvatar,
-    Avatar,
+  Avatar,
+    Button
 } from '@material-ui/core';
 
 const StyledBadge = withStyles((theme) => ({
@@ -38,9 +40,10 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const FriendItem = ({ img, text, sub, uid, msg_key, invisible, event }) => {
+const FriendItem = ({ img, text, sub, uid, msg_key, me, invisible, event }) => {
 
-    return (
+  return (
+        <li style={{ display:msg_key ? 'flex' : 'block' }}>
             <ListItem
         button
         onClick={()=> msg_key ? event(msg_key) : event(uid) }
@@ -66,7 +69,13 @@ const FriendItem = ({ img, text, sub, uid, msg_key, invisible, event }) => {
                 </Avatar> */}
               </ListItemAvatar>
             <ListItemText primary={text} secondary={ sub } />
-            </ListItem>
+      </ListItem>
+      {msg_key && 
+        <Button onClick={() => removeRooms(msg_key,me)}>
+          삭제
+        </Button>
+      }
+      </li>
     );
 };
 

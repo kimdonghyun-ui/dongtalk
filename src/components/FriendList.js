@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const FriendList = ({ title, data, event, all_users, all_connected }) => {
+const FriendList = ({ title, data, event, all_users, all_connected, me }) => {
   const classes = useStyles();
   
     function uid_name(names) {
@@ -63,6 +63,7 @@ const FriendList = ({ title, data, event, all_users, all_connected }) => {
                   sub={data.email === undefined ? '1:1 대화방' : data.email}
                   uid={data.uid}
                   msg_key={data.msg_key}
+                  me={me}
                   event={event}
                 />
               ))
@@ -94,7 +95,8 @@ const FriendList = ({ title, data, event, all_users, all_connected }) => {
 
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
-  all_connected: state.chats.all_connected
+  all_connected: state.chats.all_connected,
+  me: state.chats.me[0]
 });
 
 // const mapDispatchToProps = (dispatch) => ({
