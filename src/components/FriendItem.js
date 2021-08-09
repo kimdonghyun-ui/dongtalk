@@ -1,15 +1,17 @@
-import React from 'react';
+import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import { removeRooms } from "../helpers/databox";
+import { connect } from "react-redux";
 
+import { rx_focusroom, rx_msglist } from "../modules/chats";
 import {
-    ListItem,
-    ListItemText,
-    ListItemAvatar,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
   Avatar,
-    Button
-} from '@material-ui/core';
+  Button,
+} from "@material-ui/core";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -40,43 +42,58 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const FriendItem = ({ img, text, sub, uid, msg_key, me, invisible, event }) => {
-
+const FriendItem = ({
+  img,
+  text,
+  sub,
+  uid,
+  msg_key,
+  me,
+  invisible,
+  event,
+  rx_focusroom,
+  rx_msglist,
+}) => {
   return (
-        <li style={{ display:msg_key ? 'flex' : 'block' }}>
-            <ListItem
-        button
-        onClick={()=> msg_key ? event(msg_key) : event(uid) }
-            >
-              <ListItemAvatar>
-                <StyledBadge
-                  invisible={invisible}
-                  overlap="circular"
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  variant="dot"
-                >
-                  <Avatar
-                        alt="Remy Sharp"
-                        src={ img }
-                  />
-                </StyledBadge>
+    <li style={{ display: msg_key ? "flex" : "block" }}>
+      <ListItem button onClick={() => (msg_key ? event(msg_key) : event(uid))}>
+        <ListItemAvatar>
+          <StyledBadge
+            invisible={invisible}
+            overlap="circular"
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            variant="dot"
+          >
+            <Avatar alt="Remy Sharp" src={img} />
+          </StyledBadge>
 
-                {/* <Avatar>
+          {/* <Avatar>
                   <BeachAccessIcon />
                 </Avatar> */}
-              </ListItemAvatar>
-            <ListItemText primary={text} secondary={ sub } />
+        </ListItemAvatar>
+        <ListItemText primary={text} secondary={sub} />
       </ListItem>
-      {msg_key && 
-        <Button onClick={() => removeRooms(msg_key,me)}>
+      {msg_key && (
+        <Button
+          onClick={() => removeRooms(msg_key, me, rx_focusroom, rx_msglist)}
+        >
           삭제
         </Button>
-      }
-      </li>
-    );
+      )}
+    </li>
+  );
 };
 
-export default FriendItem;
+const mapDispatchToProps = (dispatch) => ({
+  rx_focusroom: (val) => {
+    dispatch(rx_focusroom(val));
+  },
+  rx_msglist: (val) => {
+    dispatch(rx_msglist(val));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(FriendItem);

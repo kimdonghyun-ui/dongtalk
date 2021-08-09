@@ -89,17 +89,18 @@ export const removeChats = (room, key, rx_remove) => {
   console.log("메롱", room, key);
 }; //removeChats
 
-
-export const removeRooms = (key, me) => {
+export const removeRooms = (key, me, rx_focusroom, rx_msglist) => {
   var mePassword = prompt("본인의 비밀번호를 입력하세요");
   if (me.password === mePassword) {
     firedatabase.ref(`room/${key}`).remove();
+    firedatabase.ref(`msg/${key}`).remove();
+    rx_focusroom("");
+    rx_msglist("");
     alert("삭제가 완료되었습니다.");
   } else {
     alert("비밀번호가 틀려서 삭제 불가합니다");
   }
 };
-
 
 //##########################################################
 //########### 실시간 접속여부 관련된 함수들 ################
@@ -153,12 +154,3 @@ export function me_connected(all_connected, uid) {
     return found.length > 0 && found[0].connection;
   }
 }
-
-
-
-
-
-
-
-
-
