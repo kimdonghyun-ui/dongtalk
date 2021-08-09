@@ -142,3 +142,12 @@ export function me_connected(all_connected, uid) {
     return found.length > 0 && found[0].connection;
   }
 }
+
+
+
+
+
+
+
+
+

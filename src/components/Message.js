@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
-// import { fireauth, firedatabase } from "../services/firebase";
 import { rx_remove } from "../modules/chats";
+import { fireauth } from "../services/firebase";
 
 import * as dateFns from "date-fns";
 import { removeChats } from "../helpers/databox";
@@ -57,15 +57,29 @@ const useStyles = makeStyles((theme) => ({
 const Message = ({ focusroom, rx_remove, msglist }) => {
   const classes = useStyles();
   console.log("Message-focusroom", focusroom);
+  const intervalId = useRef(null);
+
+
+
+
+function scrollToMyRef (){
+    const scroll =
+      intervalId.current.scrollHeight -
+      intervalId.current.clientHeight;
+    intervalId.current.scrollTo(0, scroll);
+  };
+
+
+
 
   useEffect(() => {
     console.log("[표시]Message.js");
-
+    scrollToMyRef();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [msglist, focusroom]);
 
   return (
-    <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }}>
+    <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }} ref={intervalId}>
       <ListSubheader>
         하하하
         {focusroom !== "" &&
@@ -103,9 +117,12 @@ const Message = ({ focusroom, rx_remove, msglist }) => {
                 }
               />
               <Button
-                style={{
-                  display: false ? "none" : "inline-flex",
-                }}
+                  style={{
+                    display:
+                      fireauth.currentUser.uid !== data.uid
+                        ? "none"
+                        : "inline-flex",
+                  }}
                 onClick={() => removeChats(focusroom, data.key, rx_remove)}
               >
                 삭제
