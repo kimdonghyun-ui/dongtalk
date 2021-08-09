@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { fireauth, firedatabase } from "../services/firebase";
+// import PropTypes from "prop-types";
+import { firedatabase } from "../services/firebase";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -12,7 +12,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
 import { connect } from "react-redux";
 
 import { blue } from "@material-ui/core/colors";

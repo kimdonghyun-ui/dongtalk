@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // import { fireauth, firedatabase } from "../services/firebase";
 import { rx_remove } from "../modules/chats";
 
+import * as dateFns from "date-fns";
 import { removeChats } from "../helpers/databox";
 import ListSubheader from "@material-ui/core/ListSubheader";
 
@@ -97,7 +98,7 @@ const Message = ({ focusroom, rx_remove, msglist }) => {
                       {data.message}
                     </Typography>
                     <br />
-                    {data.timestamp}
+                    {dateFns.format(data.timestamp, "yyyy-MM-dd-HH-mm-ss")}
                   </React.Fragment>
                 }
               />
