@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { signUp } from "../helpers/databox";
+import { signUp } from "../helpers/common";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {

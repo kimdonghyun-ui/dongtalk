@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { signIn } from "../helpers/databox";
+import { signIn } from "../helpers/common";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 import {

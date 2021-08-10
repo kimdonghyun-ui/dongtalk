@@ -150,17 +150,20 @@ export function CM_allmsglist(rx_allmsglist) {
 //##########################################################
 
 
-//##### 메시지 삭제 #####
+//##########################################################
+//########### 메시지 삭제(firebase) ################
+//##########################################################
 export const removeChats = (room, key, rx_remove) => {
   firedatabase.ref(`msg/${room}/${key}`).remove();
-  rx_remove(key);
-  console.log("메롱", room, key);
+  rx_remove(key); //리덕스 스토어 데이터에도 삭제된 키값을 전달해줘서 삭제시켜준다.
+  console.log("[메시지 삭제]removeChats", room, key);
 }; //removeChats
+//##########################################################
 
 
-
-
-//##### 메시지 보내기 #####
+//##########################################################
+//########### 메시지 서버로 보내기(firebase) ################
+//##########################################################
 export function sendChat(msg, focusroom) {
   if (focusroom !== "") {
     var newPostKey = firedatabase.ref(`msg/${focusroom}`).push().key;
@@ -180,3 +183,54 @@ export function sendChat(msg, focusroom) {
     alert("방을 선택해주세요");
   }
 } //sendChat
+//##########################################################
+
+
+//##########################################################
+//########### 이메일 로그인 함수 ################
+//##########################################################
+export function signIn(member) {
+  return fireauth
+    .signInWithEmailAndPassword(member.email, member.password)
+    .then(() => {
+      //dispatch({ type: "LOGIN_SUCCESS" });
+      console.log("signIn()로그인성공");
+    })
+    .catch((err) => {
+      //dispatch({ type: "LOGIN_ERROR", err });
+      console.log("signIn()실패");
+    });
+}
+//##########################################################
+
+
+//##########################################################
+//########### 회원가입 함수 ################
+//##########################################################
+export function signUp(member) {
+  return fireauth
+    .createUserWithEmailAndPassword(member.email, member.password)
+    .then(() => {
+      console.log("signUp()가입성공", member.email, member.password);
+      // 여기는 별도 회원 데이터 저장하기 위한 기능
+      var newPostKey = firedatabase.ref("all_users").push().key;
+      var postData = {
+        email: member.email,
+        name: member.name,
+        password: member.password,
+        uid: fireauth.currentUser.uid,
+        key: newPostKey,
+      };
+      var updates = {};
+      updates["/all_users/" + newPostKey] = postData;
+      return firedatabase.ref().update(updates);
+      // //여기는 별도 회원 데이터 저장하기 위한 기능
+    })
+    .catch((error) => {
+      alert(
+        error.message ===
+          "The email address is already in use by another account." &&
+          "이미 있는 아이디입니다."
+      );
+    });
+}

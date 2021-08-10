@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { firedatabase } from "../services/firebase";
 import { connect } from "react-redux";
@@ -135,10 +135,25 @@ const Chat = ({
 
 
 Chat.propTypes = {
-  // rx_authenticated: PropTypes.func,
-  // authenticated: PropTypes.bool,
+  rx_all_users: PropTypes.func,
+  all_users: PropTypes.array,
+  rx_me: PropTypes.func,
+  me: PropTypes.object,
+  rx_myroomlist: PropTypes.func,
+  myroomlist: PropTypes.array,
+  rx_allroomlist: PropTypes.func,
+  allroomlist: PropTypes.array,
+  rx_focusroom: PropTypes.func,
+  focusroom: PropTypes.string,
+  rx_allmsglist: PropTypes.func,
+  rx_connected: PropTypes.func,
+  allmsglist: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+  rx_focusmsg: PropTypes.func,
+  focusmsg: PropTypes.array,
 };
-
 
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
