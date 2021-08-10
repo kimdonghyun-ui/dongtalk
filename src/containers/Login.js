@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ me }) {
+function Login() {
   const classes = useStyles();
   const [member, setMember] = useState({
     email: "",

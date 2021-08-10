@@ -1,25 +1,6 @@
 import { fireauth, firedatabase, fire } from "../services/firebase";
 
-/* 로그인 유지 (브라우져 닫으면 로그인 유지 풀림) */
-export function login_maintain(member) {
-    console.log('member',member);
-  fireauth
-    .setPersistence(fire.auth.Auth.Persistence.SESSION)
-    .then(() => {
-      //로그인 유지 중
-      console.log("로그인 유지 중");
-      return fireauth.signInWithEmailAndPassword(member.email, member.password);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      console.log("로그인 유지 실패");
 
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("errorCode", errorCode);
-      console.log("errorMessage", errorMessage);
-    });
-}
 
 //구글 로그인 기능
 export function signInWithGoogle() {

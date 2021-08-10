@@ -4,7 +4,8 @@ const RX_ME = "menu/RX_ME";
 const RX_CONNECTED = "menu/RX_CONNECTED";
 const RX_MYROOMLIST = "menu/RX_MYROOMLIST";
 const RX_ALLROOMLIST = "menu/RX_ALLROOMLIST";
-const RX_MSGLIST = "menu/RX_MSGLIST";
+const RX_ALLMSGLIST = "menu/RX_ALLMSGLIST";
+const RX_FOCUSMSG = "menu/RX_FOCUSMSG";
 const RX_REMOVE = "menu/RX_REMOVE";
 const RX_FOCUSROOM = "menu/RX_FOCUSROOM";
 
@@ -38,8 +39,13 @@ export const rx_allroomlist = (result) => ({
   result,
 });
 
-export const rx_msglist = (result) => ({
-  type: RX_MSGLIST,
+export const rx_allmsglist = (result) => ({
+  type: RX_ALLMSGLIST,
+  result,
+});
+
+export const rx_focusmsg = (result) => ({
+  type: RX_FOCUSMSG,
   result,
 });
 
@@ -60,7 +66,8 @@ const initialState = {
   all_connected: "",
   myroomlist: [],
   allroomlist: [],
-  msglist: [],
+  allmsglist: [],
+  focusmsg: [],
   focusroom: "",
 };
 
@@ -97,15 +104,20 @@ function chats(state = initialState, action) {
         // item.name.push(all_users.filter((data) => data.uid === item.uid))
         allroomlist: action.result,
       };
-    case RX_MSGLIST:
+    case RX_ALLMSGLIST:
       return {
         ...state,
-        msglist: action.result,
+        allmsglist: action.result,
+      };
+    case RX_FOCUSMSG:
+      return {
+        ...state,
+        focusmsg: action.result,
       };
     case RX_REMOVE:
       return {
         ...state,
-        msglist: state.msglist.filter((todo) => todo.key !== action.key),
+        focusmsg: state.focusmsg.filter((todo) => todo.key !== action.key),
       };
     case RX_FOCUSROOM:
       return {

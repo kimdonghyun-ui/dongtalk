@@ -4,7 +4,7 @@ import { rx_remove } from "../modules/chats";
 import { fireauth } from "../services/firebase";
 
 import * as dateFns from "date-fns";
-import { removeChats } from "../helpers/databox";
+import { removeChats } from "../helpers/common";
 import ListSubheader from "@material-ui/core/ListSubheader";
 
 import {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = ({ focusroom, rx_remove, msglist }) => {
+const Message = ({ focusmsg ,focusroom, rx_remove }) => {
   const classes = useStyles();
   console.log("Message-focusroom", focusroom);
   const intervalId = useRef(null);
@@ -76,19 +76,19 @@ function scrollToMyRef (){
     console.log("[표시]Message.js");
     scrollToMyRef();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [msglist, focusroom]);
+  }, [focusmsg, focusroom]);
 
   return (
     <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }} ref={intervalId}>
-      <ListSubheader>
-        하하하
+      <ListSubheader style={{ display:'flex',justifyContent:'space-between',backgroundColor:'#fff' }}>
+        채팅방
         {focusroom !== "" &&
           <FriendAdd />
         }
       </ListSubheader>
       <List className={classes.listBox}>
-        {msglist.length > 0 ? (
-          msglist.map((data, index) => (
+        {focusmsg.length > 0 ? (
+          focusmsg.map((data, index) => (
             <ListItem key={index} className={classes.listBoxItem}>
               <ListItemAvatar
                 className={classes.listBoxItemavatar}
@@ -139,7 +139,6 @@ function scrollToMyRef (){
 
 const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
-  msglist: state.chats.msglist,
 });
 
 const mapDispatchToProps = (dispatch) => ({

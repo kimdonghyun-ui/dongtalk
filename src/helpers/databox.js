@@ -61,33 +61,9 @@ export function logout() {
     });
 }
 
-//##### 메시지 보내기 #####
-export function sendChat(msg, focusroom) {
-  if (focusroom !== "") {
-    var newPostKey = firedatabase.ref(`msg/${focusroom}`).push().key;
 
-    var postData = {
-      message: msg.message,
-      timestamp: msg.timestamp,
-      uid: msg.uid,
-      key: newPostKey,
-      name: msg.name,
-    };
 
-    var updates = {};
-    updates[`msg/${focusroom}/${newPostKey}`] = postData;
-    return firedatabase.ref().update(updates);
-  } else {
-    alert("방을 선택해주세요");
-  }
-} //sendChat
 
-//##### 메시지 삭제 #####
-export const removeChats = (room, key, rx_remove) => {
-  firedatabase.ref(`msg/${room}/${key}`).remove();
-  rx_remove(key);
-  console.log("메롱", room, key);
-}; //removeChats
 
 export const removeRooms = (key, me, rx_focusroom, rx_msglist) => {
   var mePassword = prompt("본인의 비밀번호를 입력하세요");
@@ -105,38 +81,6 @@ export const removeRooms = (key, me, rx_focusroom, rx_msglist) => {
 //##########################################################
 //########### 실시간 접속여부 관련된 함수들 ################
 //##########################################################
-export function connected(authenticated) {
-  if (authenticated === true) {
-    var userUid = fireauth.currentUser.uid;
-    var myConnectionsRef = firedatabase.ref(`UsersConnection/${userUid}`);
-    var connectedRef = firedatabase.ref(".info/connected");
-    connectedRef.on("value", (snap) => {
-      if (snap.val() === true) {
-        console.log("connected");
-        myConnectionsRef.set({
-          connection: true,
-          uid: userUid,
-        });
-      } else {
-        console.log("not connected");
-        myConnectionsRef.set({
-          connection: false,
-          uid: userUid,
-        });
-      }
-    });
-    myConnectionsRef.onDisconnect().set({ connection: false, uid: userUid });
-  }
-}
-
-export function connectValue(rx_connected) {
-  //firebase 에서 connect 안의 데이터전부를 불러와서 리덕스(rx_connected)에 넣어주기
-  // console.log("fireauth.currentUser.uid", fireauth.currentUser.uid);
-  firedatabase.ref(`UsersConnection`).on("value", (snapshot) => {
-    console.log("sfajklas", Object.values(snapshot.val()));
-    rx_connected(Object.values(snapshot.val()));
-  });
-}
 
 export function me_connected(all_connected, uid) {
   //실제 화면단 포문 도는곳에

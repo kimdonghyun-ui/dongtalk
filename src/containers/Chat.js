@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+// import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { fireauth, firedatabase } from "../services/firebase";
-
+import { firedatabase } from "../services/firebase";
 import { connect } from "react-redux";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, login_maintain, CM_connectValue } from "../helpers/common";
+
 import {
   rx_all_users,
   rx_me,
   rx_myroomlist,
   rx_allroomlist,
   rx_focusroom,
-  rx_msglist,
-  rx_connected
+  rx_allmsglist,
+  rx_connected,
+  rx_focusmsg
 } from "../modules/chats";
 
 import {
@@ -20,10 +23,6 @@ import {
   Paper,
   Divider,
 } from "@material-ui/core";
-
-import { connectValue } from "../helpers/databox";
-import { login_maintain } from "../helpers/auth";
-
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
@@ -51,11 +50,13 @@ const Chat = ({
   allroomlist,
   rx_focusroom,
   focusroom,
-  rx_msglist,
+  rx_allmsglist,
   rx_connected,
+  allmsglist,
+  rx_focusmsg,
+  focusmsg
 }) => {
   const classes = useStyles();
-  const [msgs, setMsg] = useState([]);
 
   const handleFriend = (you) => {
     const data = [me.uid, you];
@@ -86,56 +87,21 @@ const Chat = ({
 
   const handleRoom = (msg_key) => {
     rx_focusroom(msg_key);
-    //roomCheck(all_users, me, you, rx_focusroom, rx_msglist);
   };
 
   useEffect(() => {
     console.log("[표시]Chat.js");
-
-    connectValue(rx_connected);
-
-    firedatabase.ref("all_users").on("value", (snapshot) => {
-      let response = Object.values(snapshot.val());
-      rx_all_users(response);
-      console.log("response", response);
-
-      const me = response.filter((data) =>
-        data.uid.includes(fireauth.currentUser.uid)
-      );
-      rx_me(me);
-      login_maintain(me[0]);
-      console.log("me", me);
-    });
-
-    firedatabase.ref("room").on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
-        let response = Object.values(snapshot.val());
-        console.log("roomListBox", response);
-        rx_allroomlist(response);
-
-        const found = response.filter((element) =>
-          element.uid.some((item) => item === fireauth.currentUser.uid)
-        );
-        rx_myroomlist(found);
-        console.log("found", found);
-      }
-    });
-
-    firedatabase.ref("msg").on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
-        let response = snapshot.val();
-        setMsg(response);
-      }
-    });
-
+    CM_connectValue(rx_connected);
+    CM_all_users(rx_all_users, rx_me, me);
+    CM_allroomlist(rx_allroomlist, rx_myroomlist);
+    CM_allmsglist(rx_allmsglist);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log("all_users", all_users);
-  console.log("focusroom", focusroom);
-    useEffect(() => {
-        msgs && focusroom && rx_msglist( (msgs[focusroom] ? Object.values(msgs[focusroom]) : [] )  );
+
+  useEffect(() => {
+    allmsglist[focusroom] ? rx_focusmsg(Object.values(allmsglist[focusroom])) : rx_focusmsg([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [msgs, focusroom]);
+  }, [allmsglist,focusroom]);
 
   return (
     <React.Fragment>
@@ -157,7 +123,7 @@ const Chat = ({
               />
             </Grid>
             <Grid item xs={12} sm={8} style={{ position: "relative" }}>
-              <Message />
+              <Message focusmsg={focusmsg} />
               <InputBox />
             </Grid>
           </Grid>
@@ -167,12 +133,21 @@ const Chat = ({
   );
 };
 
+
+Chat.propTypes = {
+  // rx_authenticated: PropTypes.func,
+  // authenticated: PropTypes.bool,
+};
+
+
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
   myroomlist: state.chats.myroomlist,
   allroomlist: state.chats.allroomlist,
   me: state.chats.me[0],
   focusroom: state.chats.focusroom,
+  allmsglist: state.chats.allmsglist,
+  focusmsg: state.chats.focusmsg,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -191,14 +166,17 @@ const mapDispatchToProps = (dispatch) => ({
   rx_focusroom: (val) => {
     dispatch(rx_focusroom(val));
   },
-  rx_msglist: (val) => {
-    dispatch(rx_msglist(val));
+  rx_allmsglist: (val) => {
+    dispatch(rx_allmsglist(val));
   },
   rx_connected: (val) => {
     dispatch(rx_connected(val));
   },
   login_maintain: (val) => {
     dispatch(login_maintain(val));
+  },
+  rx_focusmsg: (val) => {
+    dispatch(rx_focusmsg(val));
   }
 });
 

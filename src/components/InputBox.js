@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { fireauth } from "../services/firebase";
+import { sendChat } from "../helpers/common";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Button } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
-import TextField from "@material-ui/core/TextField";
-
-import { sendChat } from "../helpers/databox";
+import { Box, Button, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   InputBox: {
@@ -29,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const InputBox = ({ focusroom, me }) => {
   const classes = useStyles();
-
   const [msg, setMsg] = useState("");
 
   const handleOnChange = (e) => {
@@ -51,17 +48,6 @@ const InputBox = ({ focusroom, me }) => {
       },
       focusroom
     );
-
-    console.log(      {
-        message: msg,
-        timestamp: Date.now(),
-        uid: fireauth.currentUser.uid,
-        name:
-          fireauth.currentUser.displayName === null
-            ? me.name
-            : fireauth.currentUser.displayName,
-      },
-      focusroom);
   };
 
   return (
@@ -92,11 +78,5 @@ const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
   me: state.chats.me[0],
 });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   rx_msglist: (val) => {
-//     dispatch(rx_msglist(val));
-//   },
-// });
 
 export default connect(mapStateToProps, null)(InputBox);

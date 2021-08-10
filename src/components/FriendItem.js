@@ -4,7 +4,7 @@ import Badge from "@material-ui/core/Badge";
 import { removeRooms } from "../helpers/databox";
 import { connect } from "react-redux";
 
-import { rx_focusroom, rx_msglist } from "../modules/chats";
+import { rx_focusroom, rx_focusmsg } from "../modules/chats";
 import {
   ListItem,
   ListItemText,
@@ -52,7 +52,7 @@ const FriendItem = ({
   invisible,
   event,
   rx_focusroom,
-  rx_msglist,
+  rx_focusmsg,
 }) => {
   return (
     <li style={{ display: msg_key ? "flex" : "block" }}>
@@ -78,7 +78,7 @@ const FriendItem = ({
       </ListItem>
       {msg_key && (
         <Button
-          onClick={() => removeRooms(msg_key, me, rx_focusroom, rx_msglist)}
+          onClick={() => removeRooms(msg_key, me, rx_focusroom, rx_focusmsg)}
         >
           삭제
         </Button>
@@ -91,8 +91,8 @@ const mapDispatchToProps = (dispatch) => ({
   rx_focusroom: (val) => {
     dispatch(rx_focusroom(val));
   },
-  rx_msglist: (val) => {
-    dispatch(rx_msglist(val));
+  rx_focusmsg: (val) => {
+    dispatch(rx_focusmsg(val));
   },
 });
 

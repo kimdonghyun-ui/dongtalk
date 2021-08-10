@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signUp } from "../helpers/databox";
-// import { signUp, all_users } from "../helpers/databox";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -14,7 +13,6 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { connect } from "react-redux";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
@@ -51,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ me }) {
+function SignUp() {
   const classes = useStyles();
   const [member, setMember] = useState({
     email: "",
@@ -67,10 +65,7 @@ function SignUp({ me }) {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (member.email !== "" && member.password !== "" && member.name !== "") {
-      //connectCheck(me, false);
       signUp(member);
-
-      // signUp(member, all_users);
     }
   };
 
@@ -153,8 +148,4 @@ function SignUp({ me }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  authenticated: state.chats.authenticated,
-});
-
-export default connect(mapStateToProps, null)(SignUp);
+export default SignUp
