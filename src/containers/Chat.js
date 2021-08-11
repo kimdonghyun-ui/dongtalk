@@ -12,7 +12,10 @@ import {
   rx_focusroom,
   rx_allmsglist,
   rx_connected,
-  rx_focusmsg
+  rx_focusmsg,
+  rx_loading1,
+  rx_loading2,
+  rx_loading3
 } from "../modules/chats";
 
 import {
@@ -53,7 +56,13 @@ const Chat = ({
   rx_connected,
   allmsglist,
   rx_focusmsg,
-  focusmsg
+  focusmsg,
+  rx_loading1,
+  rx_loading2,
+  rx_loading3,
+  loading1,
+  loading2,
+  loading3
 }) => {
   const classes = useStyles();
 
@@ -95,9 +104,12 @@ const Chat = ({
   useEffect(() => {
     console.log("[표시]Chat.js");
     CM_connectValue(rx_connected);
-    CM_all_users(rx_all_users, rx_me, me);
-    CM_allroomlist(rx_allroomlist, rx_myroomlist);
-    CM_allmsglist(rx_allmsglist);
+    rx_loading1(true);
+    rx_loading2(true);
+    rx_loading3(true);
+    CM_all_users(rx_all_users, rx_me, me, rx_loading1);
+    CM_allroomlist(rx_allroomlist, rx_myroomlist, rx_loading2);
+    CM_allmsglist(rx_allmsglist,rx_loading3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -116,17 +128,19 @@ const Chat = ({
               <FriendList
                 title="전체 친구 리스트"
                 data={all_users}
+                loading={ loading1 }
                 event={handleFriend}
               />
               <Divider />
               <FriendList
                 title="나의 방 리스트"
                 data={myroomlist}
+                loading={ loading2 }
                 event={handleRoom}
               />
             </Grid>
             <Grid item xs={12} sm={8} style={{ position: "relative" }}>
-              <Message focusmsg={focusmsg} />
+              <Message focusmsg={focusmsg} loading={ loading3 } />
               <InputBox />
             </Grid>
           </Grid>
@@ -166,6 +180,9 @@ const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
   allmsglist: state.chats.allmsglist,
   focusmsg: state.chats.focusmsg,
+  loading1: state.chats.loading1,
+  loading2: state.chats.loading2,
+  loading3: state.chats.loading3
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -195,6 +212,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_focusmsg: (val) => {
     dispatch(rx_focusmsg(val));
+  },
+  rx_loading1: (val) => {
+    dispatch(rx_loading1(val));
+  },
+  rx_loading2: (val) => {
+    dispatch(rx_loading2(val));
+  },
+  rx_loading3: (val) => {
+    dispatch(rx_loading3(val));
   }
 });
 

@@ -98,7 +98,7 @@ export function CM_connectValue(rx_connected) {
 //##########################################################
 //########### 유저 리스트 데이타를 불러오기(firebase) ################
 //##########################################################
-export function CM_all_users(rx_all_users,rx_me,me) {
+export function CM_all_users(rx_all_users, rx_me, me, rx_loading1) {
     firedatabase.ref("all_users").on("value", (snapshot) => {
       let response = Object.values(snapshot.val());
       rx_all_users(response); //리덕스에도 넣어주기
@@ -110,6 +110,7 @@ export function CM_all_users(rx_all_users,rx_me,me) {
       rx_me(me); //리덕스에도 넣어주기
       login_maintain(me[0]);
       console.log("me", me);
+      rx_loading1(false);
     });
 };
 //##########################################################
@@ -118,7 +119,7 @@ export function CM_all_users(rx_all_users,rx_me,me) {
 //##########################################################
 //########### 전체 방 데이타를 불러오기(firebase) ################
 //##########################################################
-export function CM_allroomlist(rx_allroomlist,rx_myroomlist) {
+export function CM_allroomlist(rx_allroomlist,rx_myroomlist,rx_loading2) {
     firedatabase.ref("room").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         let response = Object.values(snapshot.val());
@@ -131,6 +132,7 @@ export function CM_allroomlist(rx_allroomlist,rx_myroomlist) {
         rx_myroomlist(found);
         console.log("found", found);
       }
+      rx_loading2(false);
     });
 };
 //##########################################################
@@ -139,12 +141,13 @@ export function CM_allroomlist(rx_allroomlist,rx_myroomlist) {
 //##########################################################
 //########### 메세지 리스트 데이타를 불러오기(firebase) ################
 //##########################################################
-export function CM_allmsglist(rx_allmsglist) {
+export function CM_allmsglist(rx_allmsglist,rx_loading3) {
     firedatabase.ref("msg").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         let response = snapshot.val();
-          rx_allmsglist(response)
+        rx_allmsglist(response);
       }
+      rx_loading3(false);
     });
 };
 //##########################################################

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import FriendItem from "./FriendItem";
 
-import { Box, List } from "@material-ui/core";
+import { Box, List, CircularProgress  } from "@material-ui/core";
 
 import { CM_me_connected } from "../helpers/common";
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendList = ({ title, data, event, all_users, all_connected, me }) => {
+const FriendList = ({ title, data, event, all_users, all_connected, me, loading }) => {
   const classes = useStyles();
 
   function uid_name(names) {
@@ -43,6 +43,21 @@ const FriendList = ({ title, data, event, all_users, all_connected, me }) => {
       <ListSubheader>{title}</ListSubheader>
 
       <List className={classes.list}>
+        {loading &&
+          <Box style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width:'100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+          }}>
+            <CircularProgress color="secondary" />
+          </Box>
+        }
+        
         {data.length > 0 ? (
           data.map((data, index) => (
             <FriendItem

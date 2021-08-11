@@ -8,6 +8,9 @@ const RX_ALLMSGLIST = "menu/RX_ALLMSGLIST";
 const RX_FOCUSMSG = "menu/RX_FOCUSMSG";
 const RX_REMOVE = "menu/RX_REMOVE";
 const RX_FOCUSROOM = "menu/RX_FOCUSROOM";
+const RX_LOADING1 = "menu/RX_LOADING1";
+const RX_LOADING2 = "menu/RX_LOADING2";
+const RX_LOADING3 = "menu/RX_LOADING3";
 
 export const rx_authenticated = (result) => ({
   type: RX_AUTHENTICATED,
@@ -59,6 +62,19 @@ export const rx_focusroom = (result) => ({
   result,
 });
 
+export const rx_loading1 = (result) => ({
+  type: RX_LOADING1,
+  result,
+});
+export const rx_loading2 = (result) => ({
+  type: RX_LOADING2,
+  result,
+});
+export const rx_loading3 = (result) => ({
+  type: RX_LOADING3,
+  result,
+});
+
 const initialState = {
   authenticated: false,
   all_users: [],
@@ -69,6 +85,9 @@ const initialState = {
   allmsglist: [],
   focusmsg: [],
   focusroom: "",
+  loading1:false,
+  loading2:false,
+  loading3:false
 };
 
 function chats(state = initialState, action) {
@@ -124,7 +143,22 @@ function chats(state = initialState, action) {
         ...state,
         focusroom: action.result,
       };
-
+    case RX_LOADING1:
+      return {
+        ...state,
+        loading1: action.result,
+      };
+    case RX_LOADING2:
+      return {
+        ...state,
+        loading2: action.result,
+      };
+    case RX_LOADING3:
+      return {
+        ...state,
+        loading3: action.result,
+      };
+    
     default:
       return state;
   }

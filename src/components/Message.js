@@ -16,6 +16,7 @@ import {
   Avatar,
   Typography,
   Button,
+  CircularProgress
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = ({ focusmsg ,focusroom, rx_remove }) => {
+const Message = ({ focusmsg ,focusroom, rx_remove, loading }) => {
   const classes = useStyles();
   console.log("Message-focusroom", focusroom);
   const intervalId = useRef(null);
@@ -80,6 +81,20 @@ function scrollToMyRef (){
 
   return (
     <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }} ref={intervalId}>
+        {loading &&
+          <Box style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width:'100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+          }}>
+            <CircularProgress color="secondary" />
+          </Box>
+        }
       <ListSubheader style={{ display:'flex',justifyContent:'space-between',backgroundColor:'#fff' }}>
         채팅방
         {focusroom !== "" &&
