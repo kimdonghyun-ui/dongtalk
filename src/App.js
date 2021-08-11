@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { HashRouter, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { rx_authenticated } from "./modules/chats";
-import { logout } from "./helpers/databox";
+import { CM_logout } from "./helpers/common";
 import { CM_login_state } from "./helpers/common";
 
 import PublicRoute from "./components/PublicRoute";
@@ -42,7 +42,7 @@ function App({ rx_authenticated, authenticated }) {
         <button
           onClick={() => {
             // connectCheck(false);
-            logout();
+            CM_logout();
           }}
         >
           로그아웃

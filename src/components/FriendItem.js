@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import { removeRooms } from "../helpers/databox";
+import { CM_removeRooms } from "../helpers/common";
 import { connect } from "react-redux";
 
 import { rx_focusroom, rx_focusmsg } from "../modules/chats";
@@ -78,7 +78,7 @@ const FriendItem = ({
       </ListItem>
       {msg_key && (
         <Button
-          onClick={() => removeRooms(msg_key, me, rx_focusroom, rx_focusmsg)}
+          onClick={() => CM_removeRooms(msg_key, me, rx_focusroom, rx_focusmsg)}
         >
           삭제
         </Button>

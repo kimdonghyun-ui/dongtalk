@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { firedatabase } from "../services/firebase";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, login_maintain, CM_connectValue } from "../helpers/common";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue } from "../helpers/common";
 
 import {
   rx_all_users,
@@ -58,31 +57,35 @@ const Chat = ({
 }) => {
   const classes = useStyles();
 
+
+
+  
   const handleFriend = (you) => {
-    const data = [me.uid, you];
-    const clone_data = [me.uid, you].sort();
-    console.log("handleFriend", data[0], data[1]);
+    CM_Roomadd(me, you, allroomlist);
+    // const data = [me.uid, you];
+    // const clone_data = [me.uid, you].sort();
+    // console.log("handleFriend", data[0], data[1]);
 
-    console.log(allroomlist);
-    let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
-    clone_allroomlist = clone_allroomlist.some(
-      (element) =>
-        JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
-    );
+    // console.log(allroomlist);
+    // let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
+    // clone_allroomlist = clone_allroomlist.some(
+    //   (element) =>
+    //     JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
+    // );
 
-    if (!clone_allroomlist) {
-      var newPostKey = firedatabase.ref("room").push().key;
-      var postData = {
-        uid: [me.uid, you],
-        name: [],
-        msg_key: newPostKey,
-      };
-      var updates = {};
-      updates["/room/" + newPostKey] = postData;
-      return firedatabase.ref().update(updates);
-    } else {
-      alert("이미 방이 존재합니다.");
-    }
+    // if (!clone_allroomlist) {
+    //   var newPostKey = firedatabase.ref("room").push().key;
+    //   var postData = {
+    //     uid: [me.uid, you],
+    //     name: [],
+    //     msg_key: newPostKey,
+    //   };
+    //   var updates = {};
+    //   updates["/room/" + newPostKey] = postData;
+    //   return firedatabase.ref().update(updates);
+    // } else {
+    //   alert("이미 방이 존재합니다.");
+    // }
   };
 
   const handleRoom = (msg_key) => {

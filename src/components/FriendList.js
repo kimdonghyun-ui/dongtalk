@@ -8,7 +8,7 @@ import FriendItem from "./FriendItem";
 
 import { Box, List } from "@material-ui/core";
 
-import { me_connected } from "../helpers/databox";
+import { CM_me_connected } from "../helpers/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -47,7 +47,7 @@ const FriendList = ({ title, data, event, all_users, all_connected, me }) => {
           data.map((data, index) => (
             <FriendItem
               key={index}
-              invisible={!me_connected(all_connected, data.uid)}
+              invisible={!CM_me_connected(all_connected, data.uid)}
               img="https://material-ui.com/static/images/avatar/1.jpg"
               text={
                 Array.isArray(data.uid)
