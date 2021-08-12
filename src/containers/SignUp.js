@@ -74,6 +74,21 @@ console.log(member)
     }
   };
 
+function validateEmail(email){
+    var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+  return email.length > 0 ? emailReg.test(email) : true;
+}
+function validateName(name){
+    var nameReg = new RegExp(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g);
+  return name.length > 0 ? nameReg.test(name) : true;
+}
+function validatePassword(password){
+    var passwordReg = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+  return password.length > 0 ? passwordReg.test(password) : true;
+}
+
+
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -97,6 +112,8 @@ console.log(member)
                 autoComplete="email"
                 value={member.email}
                 onChange={handleOnChange}
+                error={!validateEmail(member.email)}
+                helperText={ !validateEmail(member.email) && 'emali 형식에 맞게 입력해주세요.' }
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +127,9 @@ console.log(member)
                 autoComplete="name"
                 value={member.name}
                 onChange={handleOnChange}
+                error={!validateName(member.name)}
+                helperText={ !validateName(member.name) && '한글만 입력해주세요.' }
+
               />
             </Grid>
             <Grid item xs={12}>
@@ -124,6 +144,8 @@ console.log(member)
                 autoComplete="current-password"
                 value={member.password}
                 onChange={handleOnChange}
+                error={!validatePassword(member.password)}
+                helperText={!validatePassword(member.password) && 'password는 최소 8 자, 최소 하나의 문자 및 하나의 숫자' }
               />
             </Grid>
             <Grid item xs={12}>

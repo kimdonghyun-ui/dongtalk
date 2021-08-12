@@ -67,6 +67,16 @@ function Login() {
     }
   };
 
+function validateEmail(email){
+    var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+  return email.length > 0 ? emailReg.test(email) : true;
+}
+// function validatePassword(password){
+//     var passwordReg = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+//   return password.length > 0 ? passwordReg.test(password) : true;
+// }
+
+
   // const handleGoogleSignIn = async () => {
   //   try {
   //     await signInWithGoogle();
@@ -98,6 +108,8 @@ function Login() {
             autoFocus
             value={member.email}
             onChange={handleOnChange}
+            error={!validateEmail(member.email)}
+            helperText={ !validateEmail(member.email) && 'emali 제대로 입력해주세요.' }
           />
           <TextField
             variant="outlined"
@@ -111,6 +123,8 @@ function Login() {
             autoComplete="current-password"
             value={member.password}
             onChange={handleOnChange}
+            error={false}
+            helperText={false && 'password는 최소 8 자, 최소 하나의 문자 및 하나의 숫자' }
           />
 
           <Button
