@@ -120,18 +120,22 @@ export function CM_all_users(rx_all_users, rx_me, me, rx_loading1) {
 //########### 전체 방 데이타를 불러오기(firebase) ################
 //##########################################################
 export function CM_allroomlist(rx_allroomlist,rx_myroomlist,rx_loading2) {
-    firedatabase.ref("room").on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
-        let response = Object.values(snapshot.val());
-        console.log("roomListBox", response);
-        rx_allroomlist(response);
+  firedatabase.ref("room").on("value", (snapshot) => {
+    if (snapshot.val() !== null) {
+      let response = Object.values(snapshot.val());
+      console.log("roomListBox", response);
+      rx_allroomlist(response);
 
-        const found = response.filter((element) =>
-          element.uid.some((item) => item === fireauth.currentUser.uid)
-        );
-        rx_myroomlist(found);
-        console.log("found", found);
-      }
+      const found = response.filter((element) =>
+        element.uid.some((item) => item === fireauth.currentUser.uid)
+      );
+      rx_myroomlist(found);
+      console.log("found", found);
+    } else {
+      console.log('else')
+      rx_allroomlist([]);
+      rx_myroomlist([]);
+    }
       rx_loading2(false);
     });
 };
