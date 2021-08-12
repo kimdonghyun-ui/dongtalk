@@ -98,7 +98,7 @@ export function CM_connectValue(rx_connected) {
 //##########################################################
 //########### 유저 리스트 데이타를 불러오기(firebase) ################
 //##########################################################
-export function CM_all_users(rx_all_users, rx_me, me, rx_loading1) {
+export function CM_all_users(rx_all_users, rx_me, rx_loading1) {
     firedatabase.ref("all_users").on("value", (snapshot) => {
       let response = Object.values(snapshot.val());
       rx_all_users(response); //리덕스에도 넣어주기
@@ -179,6 +179,7 @@ export function sendChat(msg, focusroom) {
       message: msg.message,
       timestamp: msg.timestamp,
       uid: msg.uid,
+      avatar: msg.avatar,
       key: newPostKey,
       name: msg.name,
     };
@@ -226,6 +227,7 @@ export function signUp(member) {
         name: member.name,
         password: member.password,
         uid: fireauth.currentUser.uid,
+        avatar: member.avatar,
         key: newPostKey,
       };
       var updates = {};
@@ -285,6 +287,7 @@ export function CM_Roomadd(me,you,allroomlist) {
       var postData = {
         uid: [me.uid, you],
         name: [],
+        avatar:me.avatar,
         msg_key: newPostKey,
       };
       var updates = {};

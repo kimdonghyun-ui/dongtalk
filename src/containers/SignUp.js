@@ -12,6 +12,10 @@ import {
   Box,
   Typography,
   Container,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel
 } from "@material-ui/core";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -55,13 +59,14 @@ function SignUp() {
     email: "",
     name: "",
     password: "",
+    avatar:"",
   });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setMember({ ...member, [name]: value });
   };
-
+console.log(member)
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (member.email !== "" && member.password !== "" && member.name !== "") {
@@ -120,6 +125,16 @@ function SignUp() {
                 value={member.password}
                 onChange={handleOnChange}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <div>
+                <FormLabel component="legend">Avatar</FormLabel>
+                <RadioGroup aria-label="gender" name="avatar" value={member.avatar} onChange={handleOnChange} style={{ display:'flex',flexDirection:'row',justifyContent:'center' }}>
+                  <FormControlLabel value="https://material-ui.com/static/images/avatar/1.jpg" control={<Radio />} label={<Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />} />
+                  <FormControlLabel value="https://material-ui.com/static/images/avatar/2.jpg" control={<Radio />} label={<Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/2.jpg" />} />
+                  <FormControlLabel value="https://material-ui.com/static/images/avatar/3.jpg" control={<Radio />} label={<Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/3.jpg" />} />
+                </RadioGroup>
+              </div>
             </Grid>
           </Grid>
           <Button

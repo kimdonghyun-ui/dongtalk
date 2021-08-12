@@ -41,6 +41,7 @@ const InputBox = ({ focusroom, me }) => {
         message: msg,
         timestamp: Date.now(),
         uid: fireauth.currentUser.uid,
+        avatar: me.avatar,
         name:
           fireauth.currentUser.displayName === null
             ? me.name

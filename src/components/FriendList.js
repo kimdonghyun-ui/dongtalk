@@ -63,7 +63,6 @@ const FriendList = ({ title, data, event, all_users, all_connected, me, loading 
             <FriendItem
               key={index}
               invisible={!CM_me_connected(all_connected, data.uid)}
-              img="https://material-ui.com/static/images/avatar/1.jpg"
               text={
                 Array.isArray(data.uid)
                   ? data.uid.map((item, index) =>
@@ -73,6 +72,7 @@ const FriendList = ({ title, data, event, all_users, all_connected, me, loading 
               }
               sub={data.email === undefined ? "1:1 대화방" : data.email}
               uid={data.uid}
+              avatar={data.avatar}
               msg_key={data.msg_key}
               me={me}
               event={event}

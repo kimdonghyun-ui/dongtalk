@@ -43,10 +43,10 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const FriendItem = ({
-  img,
   text,
   sub,
   uid,
+  avatar,
   msg_key,
   me,
   invisible,
@@ -67,7 +67,7 @@ const FriendItem = ({
             }}
             variant="dot"
           >
-            <Avatar alt="Remy Sharp" src={img} />
+            <Avatar alt="Remy Sharp" src={avatar} />
           </StyledBadge>
 
           {/* <Avatar>

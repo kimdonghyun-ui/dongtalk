@@ -107,7 +107,7 @@ const Chat = ({
     rx_loading1(true);
     rx_loading2(true);
     rx_loading3(true);
-    CM_all_users(rx_all_users, rx_me, me, rx_loading1);
+    CM_all_users(rx_all_users, rx_me, rx_loading1);
     CM_allroomlist(rx_allroomlist, rx_myroomlist, rx_loading2);
     CM_allmsglist(rx_allmsglist,rx_loading3);
     // eslint-disable-next-line react-hooks/exhaustive-deps

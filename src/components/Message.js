@@ -49,7 +49,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  listBoxItem: {},
+  listBoxItem: {
+    display: 'block',
+  },
   listBoxItemavatar: {
     display: "flex",
   },
@@ -105,13 +107,24 @@ function scrollToMyRef (){
         {focusmsg.length > 0 ? (
           focusmsg.map((data, index) => (
             <ListItem key={index} className={classes.listBoxItem}>
+                <Box
+                  style={{
+                    display: "flex",
+                    flexDirection:
+                      fireauth.currentUser.uid === data.uid
+                        ? "row-reverse"
+                        : "row",
+                    textAlign:
+                      fireauth.currentUser.uid === data.uid ? "right" : "left",
+                  }}
+                >
               <ListItemAvatar
                 className={classes.listBoxItemavatar}
                 style={{
-                  justifyContent: false ? "flex-end" : "flex-start",
+                  justifyContent: fireauth.currentUser.uid === data.uid ? "flex-end" : "flex-start",
                 }}
               >
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="Remy Sharp" src={data.avatar} />
               </ListItemAvatar>
 
               <ListItemText
@@ -141,7 +154,8 @@ function scrollToMyRef (){
                 onClick={() => removeChats(focusroom, data.key, rx_remove)}
               >
                 삭제
-              </Button>
+                </Button>
+                </Box>
             </ListItem>
           ))
         ) : (
