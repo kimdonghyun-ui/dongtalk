@@ -58,18 +58,19 @@ const FriendItem = ({
     <li style={{ display: msg_key ? "flex" : "block" }}>
       <ListItem button onClick={() => (msg_key ? event(msg_key) : event(uid))}>
         <ListItemAvatar>
-          <StyledBadge
-            invisible={invisible}
-            overlap="circular"
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            variant="dot"
-          >
-            <Avatar alt="Remy Sharp" src={avatar} />
-          </StyledBadge>
-
+          <Badge color="secondary" badgeContent={msg_key ? 3 : 0}>
+            <StyledBadge
+              invisible={invisible}
+              overlap="circular"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              variant="dot"
+            >
+              <Avatar alt="Remy Sharp" src={avatar} />
+            </StyledBadge>
+          </Badge>
           {/* <Avatar>
                   <BeachAccessIcon />
                 </Avatar> */}

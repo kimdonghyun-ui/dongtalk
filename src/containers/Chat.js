@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue } from "../helpers/common";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength } from "../helpers/common";
 
 import {
   rx_all_users,
@@ -117,6 +117,21 @@ const Chat = ({
     allmsglist[focusroom] ? rx_focusmsg(Object.values(allmsglist[focusroom])) : rx_focusmsg([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allmsglist,focusroom]);
+
+  const [jubok, setJubok] = useState(0);
+  useEffect(() => {
+    if (allroomlist) {
+      if (Object.values(allmsglist).length > 0 && jubok === 0) {
+        setJubok(1);
+        CM_msgLength(allmsglist)
+        console.log('초기 메시지 갯수 세팅')
+      }
+    }
+    
+    //CM_msgLength(allmsglist);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allroomlist,allmsglist]);
+
 
   return (
     <React.Fragment>

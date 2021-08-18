@@ -347,3 +347,23 @@ export function signInWithGoogle() {
   // provider.setCustomParameters({ prompt: 'select_account' });
   return fireauth.signInWithPopup(provider);
 }
+
+
+
+
+
+export function CM_msgLength(allmsglist) {
+  let hello1 = Object.keys(allmsglist);
+  let hello2 = Object.values(allmsglist).map((item) => Object.values(item) );
+  console.log('까꿍꿍꿍꿍꿍꿍꿍123',allmsglist)
+  console.log('까꿍꿍꿍꿍꿍꿍꿍123',Object.entries(allmsglist))
+  console.log('까꿍꿍꿍꿍꿍꿍꿍123', hello2)
+
+  hello2.map((item,index) => 
+    firedatabase.ref(`msgLength/${hello1[index]}`).set(
+        item.length
+    )
+  )
+}
+
+
