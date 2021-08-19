@@ -391,12 +391,30 @@ export function CM_user_msgLength(allroomlist, rx_msglength2, msglength2) {
 
   firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}`).once('value').then((snapshot) => {
     let response = snapshot.val();
+
+    if (response) {
+      // allroomlist.map((item) =>
+      // // console.log('item', response && response[item.msg_key])
+      //  )
+  
+    } else {
+      allroomlist.map((item) => 
+        firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set( 0 )  
+      )
+    }
+    
     // console.log('고', response['-MhNRURHz_U_10y7E_Sf'])
 
-    rx_msglength2(snapshot.val())
+    //rx_msglength2(snapshot.val())
 
-    allroomlist.map((item) =>  
-     (!response[item.msg_key] || response[item.msg_key] === null)  && firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
+    allroomlist.map((item) =>
+      // console.log('item', response && response[item.msg_key])
+      response ? firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
+        :
+      response[item.msg_key]
+      
+      
+     //(!response[item.msg_key] || response[item.msg_key] === null)  && firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
     )
 
   });
