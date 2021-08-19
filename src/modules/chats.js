@@ -12,6 +12,11 @@ const RX_LOADING1 = "menu/RX_LOADING1";
 const RX_LOADING2 = "menu/RX_LOADING2";
 const RX_LOADING3 = "menu/RX_LOADING3";
 
+const RX_MSGLENGTH = "menu/RX_MSGLENGTH";
+const RX_MSGLENGTH2 = "menu/RX_MSGLENGTH2";
+
+
+
 export const rx_authenticated = (result) => ({
   type: RX_AUTHENTICATED,
   result,
@@ -75,6 +80,17 @@ export const rx_loading3 = (result) => ({
   result,
 });
 
+export const rx_msglength = (result) => ({
+  type: RX_MSGLENGTH,
+  result,
+});
+export const rx_msglength2 = (result) => ({
+  type: RX_MSGLENGTH2,
+  result,
+});
+
+
+
 const initialState = {
   authenticated: false,
   all_users: [],
@@ -87,7 +103,9 @@ const initialState = {
   focusroom: "",
   loading1:false,
   loading2:false,
-  loading3:false
+  loading3: false,
+  msglength:[],
+  msglength2:[],
 };
 
 function chats(state = initialState, action) {
@@ -158,6 +176,18 @@ function chats(state = initialState, action) {
         ...state,
         loading3: action.result,
       };
+
+    case RX_MSGLENGTH:
+      return {
+        ...state,
+        msglength: action.result,
+      };
+    case RX_MSGLENGTH2:
+      return {
+        ...state,
+        msglength2: action.result,
+      };
+    
     
     default:
       return state;

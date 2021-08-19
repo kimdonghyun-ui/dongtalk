@@ -352,18 +352,55 @@ export function signInWithGoogle() {
 
 
 
-export function CM_msgLength(allmsglist) {
+export function CM_msgLength(allmsglist,allroomlist,rx_msglength) {
   let hello1 = Object.keys(allmsglist);
   let hello2 = Object.values(allmsglist).map((item) => Object.values(item) );
   console.log('까꿍꿍꿍꿍꿍꿍꿍123',allmsglist)
   console.log('까꿍꿍꿍꿍꿍꿍꿍123',Object.entries(allmsglist))
   console.log('까꿍꿍꿍꿍꿍꿍꿍123', hello2)
 
-  hello2.map((item,index) => 
-    firedatabase.ref(`msgLength/${hello1[index]}`).set(
-        item.length
+  allroomlist.map((item,index) => 
+    firedatabase.ref(`msgLength/${item.msg_key}`).set(
+       allmsglist[item.msg_key] ? Object.values(allmsglist[item.msg_key]).length : 0
     )
   )
+  firedatabase.ref('msgLength').once('value').then((snapshot) => {
+    console.log(snapshot.val())
+    rx_msglength(snapshot.val())
+  });
+
+  // hello2.map((item,index) => 
+  //   firedatabase.ref(`msgLength/${hello1[index]}`).set(
+  //       item.length
+  //   )
+  // )
 }
 
 
+
+
+
+export function CM_user_msgLength(allroomlist, rx_msglength2, msglength2) {
+  console.log('msglength2',msglength2)
+  console.log('123allroomlist123', allroomlist.map((item) => item.msg_key ))
+
+
+  // allroomlist.map((item) => 
+  //   firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set( 0 )  
+  // )
+
+  firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}`).once('value').then((snapshot) => {
+    let response = snapshot.val();
+    // console.log('고', response['-MhNRURHz_U_10y7E_Sf'])
+
+    rx_msglength2(snapshot.val())
+
+    allroomlist.map((item) =>  
+     (!response[item.msg_key] || response[item.msg_key] === null)  && firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
+    )
+
+  });
+
+
+
+}

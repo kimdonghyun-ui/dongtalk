@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength } from "../helpers/common";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_user_msgLength } from "../helpers/common";
 
 import {
   rx_all_users,
@@ -15,7 +15,9 @@ import {
   rx_focusmsg,
   rx_loading1,
   rx_loading2,
-  rx_loading3
+  rx_loading3,
+  rx_msglength,
+  rx_msglength2
 } from "../modules/chats";
 
 import {
@@ -62,7 +64,11 @@ const Chat = ({
   rx_loading3,
   loading1,
   loading2,
-  loading3
+  loading3,
+  rx_msglength,
+  rx_msglength2,
+  msglength,
+  msglength2
 }) => {
   const classes = useStyles();
 
@@ -118,12 +124,12 @@ const Chat = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allmsglist,focusroom]);
 
-  const [jubok, setJubok] = useState(0);
+
   useEffect(() => {
     if (allroomlist) {
-      if (Object.values(allmsglist).length > 0 && jubok === 0) {
-        setJubok(1);
-        CM_msgLength(allmsglist)
+      if (Object.values(allmsglist).length > 0) {
+
+        CM_msgLength(allmsglist,allroomlist,rx_msglength)
         console.log('초기 메시지 갯수 세팅')
       }
     }
@@ -131,6 +137,16 @@ const Chat = ({
     //CM_msgLength(allmsglist);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allroomlist,allmsglist]);
+
+  useEffect(() => {
+    if (allroomlist) {
+      
+      CM_user_msgLength(allroomlist,rx_msglength2,msglength2);
+    }
+    
+    //CM_msgLength(allmsglist);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allroomlist]);
 
 
   return (
@@ -197,7 +213,9 @@ const mapStateToProps = (state) => ({
   focusmsg: state.chats.focusmsg,
   loading1: state.chats.loading1,
   loading2: state.chats.loading2,
-  loading3: state.chats.loading3
+  loading3: state.chats.loading3,
+  msglength: state.chats.msglength,
+  msglength2: state.chats.msglength2,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -236,6 +254,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_loading3: (val) => {
     dispatch(rx_loading3(val));
+  },
+  rx_msglength: (val) => {
+    dispatch(rx_msglength(val));
+  },
+  rx_msglength2: (val) => {
+    dispatch(rx_msglength2(val));
   }
 });
 
