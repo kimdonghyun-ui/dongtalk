@@ -104,6 +104,7 @@ const Chat = ({
   };
 
   const handleRoom = (msg_key) => {
+    console.log('handleRoom')
     rx_focusroom(msg_key);
   };
 
@@ -126,12 +127,12 @@ const Chat = ({
 
 
   useEffect(() => {
-    if (allroomlist) {
-      if (Object.values(allmsglist).length > 0) {
+    if (allroomlist.length > 0) {
+     // if (Object.values(allmsglist).length > 0) {
 
         CM_msgLength(allmsglist,allroomlist,rx_msglength)
         console.log('초기 메시지 갯수 세팅')
-      }
+      //}
     }
     
     //CM_msgLength(allmsglist);
@@ -139,9 +140,8 @@ const Chat = ({
   }, [allroomlist,allmsglist]);
 
   useEffect(() => {
-    if (allroomlist) {
-      
-      CM_user_msgLength(allroomlist,rx_msglength2,msglength2);
+    if (allroomlist.length > 0) {
+      CM_user_msgLength(allroomlist,rx_msglength2,all_users);
     }
     
     //CM_msgLength(allmsglist);

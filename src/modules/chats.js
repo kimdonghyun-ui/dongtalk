@@ -104,8 +104,8 @@ const initialState = {
   loading1:false,
   loading2:false,
   loading3: false,
-  msglength:[],
-  msglength2:[],
+  msglength: null,
+  msglength2: null,
 };
 
 function chats(state = initialState, action) {

@@ -12,7 +12,7 @@ import SignUp from "./containers/SignUp";
 import Login from "./containers/Login";
 import Chat from "./containers/Chat";
 
-function App({ rx_authenticated, authenticated }) {
+function App({ rx_authenticated, authenticated, me }) {
   useEffect(() => {
     console.log("[표시]App.js");
     CM_login_state(rx_authenticated);
@@ -45,7 +45,7 @@ function App({ rx_authenticated, authenticated }) {
             CM_logout();
           }}
         >
-          로그아웃
+        로그아웃({ me && me.name })
         </button>
       }
     </HashRouter>
@@ -60,6 +60,7 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({
   authenticated: state.chats.authenticated,
+  me: state.chats.me[0],
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import { CM_removeRooms } from "../helpers/common";
 import { connect } from "react-redux";
+import { fireauth } from "../services/firebase";
 
 import { rx_focusroom, rx_focusmsg } from "../modules/chats";
 import {
@@ -53,12 +54,36 @@ const FriendItem = ({
   event,
   rx_focusroom,
   rx_focusmsg,
+  all_users,
+  msglength,
+  msglength2,
 }) => {
+
+
+  const hello = (msg_key) => {
+    if (msglength && msglength2) {
+    //console.log('갯수구하기0',msg_key)
+      if (Object.values(msglength).length === Object.values(msglength2[fireauth.currentUser.uid]).length) {
+        if (msglength[msg_key] !== undefined && msglength2[fireauth.currentUser.uid][msg_key] !== undefined ) {
+          console.log('갯수구하기',msglength[msg_key] && msglength[msg_key])
+          console.log('갯수구하기2', msglength2[fireauth.currentUser.uid][msg_key] && msglength2[fireauth.currentUser.uid][msg_key])
+          return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
+        }
+
+       //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
+      }
+
+    //   console.log('갯수구하기', msglength[msg_key])
+    // console.log('갯수구하기2',msglength2[fireauth.currentUser.uid][msg_key])
+     }
+    //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
+  }
+
   return (
     <li style={{ display: msg_key ? "flex" : "block" }}>
       <ListItem button onClick={() => (msg_key ? event(msg_key) : event(uid))}>
         <ListItemAvatar>
-          <Badge color="secondary" badgeContent={msg_key ? 3 : 0}>
+          <Badge color="secondary" badgeContent={msg_key ? hello(msg_key) : 0}>
             <StyledBadge
               invisible={invisible}
               overlap="circular"
@@ -79,7 +104,7 @@ const FriendItem = ({
       </ListItem>
       {msg_key && (
         <Button
-          onClick={() => CM_removeRooms(msg_key, me, rx_focusroom, rx_focusmsg)}
+          onClick={() => CM_removeRooms(msg_key, me, rx_focusroom, rx_focusmsg, all_users)}
         >
           삭제
         </Button>
@@ -87,6 +112,12 @@ const FriendItem = ({
     </li>
   );
 };
+
+const mapStateToProps = (state) => ({
+  all_users: state.chats.all_users,
+  msglength: state.chats.msglength,
+  msglength2: state.chats.msglength2,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   rx_focusroom: (val) => {
@@ -97,4 +128,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(FriendItem);
+export default connect(mapStateToProps, mapDispatchToProps)(FriendItem);

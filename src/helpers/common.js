@@ -303,11 +303,14 @@ export function CM_Roomadd(me,you,allroomlist) {
 //##########################################################
 //########### 내 룸 리스트 삭제 ################
 //##########################################################
-export const CM_removeRooms = (key, me, rx_focusroom, rx_focusmsg) => {
+export const CM_removeRooms = (key, me, rx_focusroom, rx_focusmsg,all_users) => {
   var mePassword = prompt("본인의 비밀번호를 입력하세요");
   if (me.password === mePassword) {
     firedatabase.ref(`room/${key}`).remove();
     firedatabase.ref(`msg/${key}`).remove();
+    firedatabase.ref(`msgLength/${key}`).remove();
+    all_users.map((item) => firedatabase.ref(`msgLength2/${item.uid}/${key}`).remove() )
+    
     rx_focusroom("");
     rx_focusmsg([]);
     alert("삭제가 완료되었습니다.");
@@ -380,44 +383,39 @@ export function CM_msgLength(allmsglist,allroomlist,rx_msglength) {
 
 
 
-export function CM_user_msgLength(allroomlist, rx_msglength2, msglength2) {
-  console.log('msglength2',msglength2)
-  console.log('123allroomlist123', allroomlist.map((item) => item.msg_key ))
+export function CM_user_msgLength(allroomlist, rx_msglength2, all_users) {
+  console.log('CM_user_msgLength')
 
-
-  // allroomlist.map((item) => 
-  //   firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set( 0 )  
-  // )
-
-  firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}`).once('value').then((snapshot) => {
+  firedatabase.ref(`msgLength2`).once('value').then((snapshot) => {
     let response = snapshot.val();
-
+    
     if (response) {
-      // allroomlist.map((item) =>
-      // // console.log('item', response && response[item.msg_key])
-      //  )
-  
+      console.log(response['2K13LFWW5kNaThUcjkSjPZKgVKp2']['-MhWIcgclx-ZglR0SRsr'])
+
+      all_users.map((item) =>
+        allroomlist.map((item2) =>
+          !response[item.uid][item2.msg_key] && firedatabase.ref(`msgLength2/${item.uid}/${item2.msg_key}`).set(0)
+        )
+      )
+
     } else {
-      allroomlist.map((item) => 
-        firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set( 0 )  
+      all_users.map((item) =>
+        allroomlist.map((item2) =>
+          firedatabase.ref(`msgLength2/${item.uid}`).update({ [item2.msg_key] : 0 })
+        )
       )
     }
+
+  firedatabase.ref(`msgLength2`).once('value').then((snapshot) => {
+    let response = snapshot.val();
     
-    // console.log('고', response['-MhNRURHz_U_10y7E_Sf'])
-
-    //rx_msglength2(snapshot.val())
-
-    allroomlist.map((item) =>
-      // console.log('item', response && response[item.msg_key])
-      response ? firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
-        :
-      response[item.msg_key]
-      
-      
-     //(!response[item.msg_key] || response[item.msg_key] === null)  && firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${item.msg_key}`).set(0)
-    )
-
+rx_msglength2(response)
+    
   });
+
+    
+  });
+
 
 
 
