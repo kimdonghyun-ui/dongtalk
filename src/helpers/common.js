@@ -356,7 +356,7 @@ export function signInWithGoogle() {
 
 
 export function CM_msgLength(allmsglist,allroomlist,rx_msglength) {
-  let hello1 = Object.keys(allmsglist);
+  //let hello1 = Object.keys(allmsglist);
   let hello2 = Object.values(allmsglist).map((item) => Object.values(item) );
   console.log('까꿍꿍꿍꿍꿍꿍꿍123',allmsglist)
   console.log('까꿍꿍꿍꿍꿍꿍꿍123',Object.entries(allmsglist))
