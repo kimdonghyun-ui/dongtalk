@@ -420,3 +420,32 @@ rx_msglength2(response)
 
 
 }
+
+
+
+
+
+
+
+
+
+export function CM_user_msgLength3(msg_key,rx_msglength2) {
+  console.log('CM_user_msgLength3')
+console.log(fireauth.currentUser.uid)
+  console.log(msg_key)
+  
+  firedatabase.ref(`msgLength/${msg_key}`).once('value').then((snapshot) => {
+    let response = snapshot.val();
+    console.log(response)
+    firedatabase.ref(`msgLength2/${fireauth.currentUser.uid}/${msg_key}`).set(response)
+
+    firedatabase.ref(`msgLength2`).once('value').then((snapshot) => {
+      let response = snapshot.val();
+      
+  rx_msglength2(response)
+      
+    });
+
+  });
+
+}

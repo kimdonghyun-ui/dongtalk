@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_user_msgLength } from "../helpers/common";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_user_msgLength, CM_user_msgLength3 } from "../helpers/common";
 
 import {
   rx_all_users,
@@ -106,6 +106,7 @@ const Chat = ({
   const handleRoom = (msg_key) => {
     console.log('handleRoom')
     rx_focusroom(msg_key);
+    CM_user_msgLength3(msg_key,rx_msglength2)
   };
 
   useEffect(() => {
