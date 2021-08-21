@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { fireauth } from "../services/firebase";
-import { sendChat } from "../helpers/common";
+import { sendChat, CM_user_msgLength3 } from "../helpers/common";
 
 import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import { Box, Button, TextField } from "@material-ui/core";
+
+import { rx_msglength2 } from "../modules/chats";
 
 const useStyles = makeStyles((theme) => ({
   InputBox: {
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InputBox = ({ focusroom, me }) => {
+const InputBox = ({ focusroom, me, rx_msglength2 }) => {
   const classes = useStyles();
   const [msg, setMsg] = useState("");
 
@@ -49,6 +51,7 @@ const InputBox = ({ focusroom, me }) => {
       },
       focusroom
     );
+    CM_user_msgLength3(focusroom, rx_msglength2);
   };
 
   return (
@@ -80,4 +83,10 @@ const mapStateToProps = (state) => ({
   me: state.chats.me[0],
 });
 
-export default connect(mapStateToProps, null)(InputBox);
+const mapDispatchToProps = (dispatch) => ({
+  rx_msglength2: (val) => {
+    dispatch(rx_msglength2(val));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputBox);
