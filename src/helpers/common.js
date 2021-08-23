@@ -342,39 +342,42 @@ export function signInWithGoogle() {
   return fireauth.signInWithPopup(provider);
 }
 
+//##########################################################
+//########### 룸 갯수만큼 포문돌려서 각룸 몇개의 메시지인지 초기에 확인하는 기능 ################
+//##########################################################
 export function CM_msgLength(allmsglist, allroomlist, rx_msglength) {
-  //let hello1 = Object.keys(allmsglist);
-  let hello2 = Object.values(allmsglist).map((item) => Object.values(item));
-  console.log("까꿍꿍꿍꿍꿍꿍꿍123", allmsglist);
-  console.log("까꿍꿍꿍꿍꿍꿍꿍123", Object.entries(allmsglist));
-  console.log("까꿍꿍꿍꿍꿍꿍꿍123", hello2);
+  console.log("CM_msgLength");
 
-  allroomlist.map((item, index) =>
-    firedatabase
-      .ref(`msgLength/${item.msg_key}`)
-      .set(
-        allmsglist[item.msg_key]
-          ? Object.values(allmsglist[item.msg_key]).length
-          : 0
-      )
-  );
-  firedatabase
-    .ref("msgLength")
-    .once("value")
-    .then((snapshot) => {
-      console.log(snapshot.val());
-      rx_msglength(snapshot.val());
-    });
-
-  // hello2.map((item,index) =>
-  //   firedatabase.ref(`msgLength/${hello1[index]}`).set(
-  //       item.length
-  //   )
-  // )
+  //룸 갯수만큼 포문돌려서 데이터를 객체로 만들어준다.
+  let msg_length = {};
+  allroomlist.map((item, index) => {
+    return msg_length[item.msg_key] = allmsglist[item.msg_key]
+      ? Object.values(allmsglist[item.msg_key]).length
+      : 0
+  });
+  //위에서 만든 데이터를 firedatabase 에 보내 서버에 저장해준다.
+  firedatabase.ref(`msgLength/`).set(msg_length,(error) => {
+    if (error) {
+      // The write failed...
+      console.log('The write failed...');
+    } else {
+      // Data saved successfully!
+      console.log('Data saved successfully!');
+      //리덕스에도 넣어주기
+      rx_msglength(msg_length);
+    }
+  });
 }
 
-export function CM_user_msgLength(allroomlist, rx_msglength2, all_users) {
-  console.log("CM_user_msgLength");
+
+//##########################################################
+//###########  ################
+//##########################################################
+export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
+  console.log("CM_my_msgLength 실행");
+  //allroomlist=룸리스트데이터
+  //rx_msglength2=
+  //all_users=전체 회원 데이터
 
   firedatabase
     .ref(`msgLength2`)
@@ -383,9 +386,23 @@ export function CM_user_msgLength(allroomlist, rx_msglength2, all_users) {
       let response = snapshot.val();
 
       if (response) {
-        console.log(
-          response["2K13LFWW5kNaThUcjkSjPZKgVKp2"]["-MhWIcgclx-ZglR0SRsr"]
-        );
+        // let all_users_uid = {};
+        // let allroomlist_msg_key = {};
+        // all_users.map((item, index) => {
+        //   return all_users_uid[item.uid] = allroomlist_msg_key;
+        // });
+        // allroomlist.map((item2, index) => {
+        //   return allroomlist_msg_key[item2.msg_key] = 0
+        // });
+        // firedatabase.ref(`msgLength2/`).set(all_users_uid,(error) => {
+        //   if (error) {
+        //     // The write failed...
+        //     console.log('msgLength2 넣기 실패...');
+        //   } else {
+        //     // Data saved successfully!
+        //     console.log('msgLength2 성공!');
+        //   }
+        // });
 
         all_users.map((item) =>
           allroomlist.map(

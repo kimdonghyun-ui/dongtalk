@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_user_msgLength, CM_user_msgLength3 } from "../helpers/common";
+import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_my_msgLength, CM_user_msgLength3 } from "../helpers/common";
 
 import {
   rx_all_users,
@@ -72,35 +72,8 @@ const Chat = ({
 }) => {
   const classes = useStyles();
 
-
-
-  
   const handleFriend = (you) => {
     CM_Roomadd(me, you, allroomlist);
-    // const data = [me.uid, you];
-    // const clone_data = [me.uid, you].sort();
-    // console.log("handleFriend", data[0], data[1]);
-
-    // console.log(allroomlist);
-    // let clone_allroomlist = JSON.parse(JSON.stringify(allroomlist));
-    // clone_allroomlist = clone_allroomlist.some(
-    //   (element) =>
-    //     JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
-    // );
-
-    // if (!clone_allroomlist) {
-    //   var newPostKey = firedatabase.ref("room").push().key;
-    //   var postData = {
-    //     uid: [me.uid, you],
-    //     name: [],
-    //     msg_key: newPostKey,
-    //   };
-    //   var updates = {};
-    //   updates["/room/" + newPostKey] = postData;
-    //   return firedatabase.ref().update(updates);
-    // } else {
-    //   alert("이미 방이 존재합니다.");
-    // }
   };
 
   const handleRoom = (msg_key) => {
@@ -129,23 +102,16 @@ const Chat = ({
 
   useEffect(() => {
     if (allroomlist.length > 0) {
-     // if (Object.values(allmsglist).length > 0) {
-
         CM_msgLength(allmsglist,allroomlist,rx_msglength)
         console.log('초기 메시지 갯수 세팅')
-      //}
     }
-    
-    //CM_msgLength(allmsglist);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allroomlist,allmsglist]);
 
   useEffect(() => {
     if (allroomlist.length > 0) {
-      CM_user_msgLength(allroomlist,rx_msglength2,all_users);
+      CM_my_msgLength(allroomlist,rx_msglength2,all_users);
     }
-    
-    //CM_msgLength(allmsglist);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allroomlist]);
 
