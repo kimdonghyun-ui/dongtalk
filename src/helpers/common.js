@@ -351,24 +351,23 @@ export function CM_msgLength(allmsglist, allroomlist, rx_msglength) {
   //룸 갯수만큼 포문돌려서 데이터를 객체로 만들어준다.
   let msg_length = {};
   allroomlist.map((item, index) => {
-    return msg_length[item.msg_key] = allmsglist[item.msg_key]
+    return (msg_length[item.msg_key] = allmsglist[item.msg_key]
       ? Object.values(allmsglist[item.msg_key]).length
-      : 0
+      : 0);
   });
   //위에서 만든 데이터를 firedatabase 에 보내 서버에 저장해준다.
-  firedatabase.ref(`msgLength/`).set(msg_length,(error) => {
+  firedatabase.ref(`msgLength/`).set(msg_length, (error) => {
     if (error) {
       // The write failed...
-      console.log('The write failed...');
+      console.log("The write failed...");
     } else {
       // Data saved successfully!
-      console.log('Data saved successfully!');
+      console.log("Data saved successfully!");
       //리덕스에도 넣어주기
       rx_msglength(msg_length);
     }
   });
 }
-
 
 //##########################################################
 //###########  ################
@@ -380,49 +379,33 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
   //all_users=전체 회원 데이터
 
   firedatabase
-    .ref(`msgLength2`)
+    .ref(`My_msgLength2`)
     .once("value")
     .then((snapshot) => {
       let response = snapshot.val();
 
       if (response) {
-        // let all_users_uid = {};
-        // let allroomlist_msg_key = {};
-        // all_users.map((item, index) => {
-        //   return all_users_uid[item.uid] = allroomlist_msg_key;
-        // });
-        // allroomlist.map((item2, index) => {
-        //   return allroomlist_msg_key[item2.msg_key] = 0
-        // });
-        // firedatabase.ref(`msgLength2/`).set(all_users_uid,(error) => {
-        //   if (error) {
-        //     // The write failed...
-        //     console.log('msgLength2 넣기 실패...');
-        //   } else {
-        //     // Data saved successfully!
-        //     console.log('msgLength2 성공!');
-        //   }
-        // });
-
         all_users.map((item) =>
           allroomlist.map(
             (item2) =>
               !response[item.uid][item2.msg_key] &&
-              firedatabase.ref(`msgLength2/${item.uid}/${item2.msg_key}`).set(0)
+              firedatabase
+                .ref(`My_msgLength2/${item.uid}/${item2.msg_key}`)
+                .set(0)
           )
         );
       } else {
         all_users.map((item) =>
           allroomlist.map((item2) =>
             firedatabase
-              .ref(`msgLength2/${item.uid}`)
+              .ref(`My_msgLength2/${item.uid}`)
               .update({ [item2.msg_key]: 0 })
           )
         );
       }
 
       firedatabase
-        .ref(`msgLength2`)
+        .ref(`My_msgLength2`)
         .once("value")
         .then((snapshot) => {
           let response = snapshot.val();
@@ -445,11 +428,11 @@ export function CM_user_msgLength3(msg_key, rx_msglength2) {
         let response = snapshot.val();
         console.log(response);
         firedatabase
-          .ref(`msgLength2/${fireauth.currentUser.uid}/${msg_key}`)
+          .ref(`My_msgLength2/${fireauth.currentUser.uid}/${msg_key}`)
           .set(response);
 
         firedatabase
-          .ref(`msgLength2`)
+          .ref(`My_msgLength2`)
           .once("value")
           .then((snapshot) => {
             let response = snapshot.val();

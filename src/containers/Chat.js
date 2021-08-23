@@ -2,7 +2,17 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { CM_all_users, CM_allroomlist, CM_allmsglist, CM_Roomadd, login_maintain, CM_connectValue, CM_msgLength, CM_my_msgLength, CM_user_msgLength3 } from "../helpers/common";
+import {
+  CM_all_users,
+  CM_allroomlist,
+  CM_allmsglist,
+  CM_Roomadd,
+  login_maintain,
+  CM_connectValue,
+  CM_msgLength,
+  CM_my_msgLength,
+  CM_user_msgLength3,
+} from "../helpers/common";
 
 import {
   rx_all_users,
@@ -17,7 +27,7 @@ import {
   rx_loading2,
   rx_loading3,
   rx_msglength,
-  rx_msglength2
+  rx_msglength2,
 } from "../modules/chats";
 
 import {
@@ -68,7 +78,7 @@ const Chat = ({
   rx_msglength,
   rx_msglength2,
   msglength,
-  msglength2
+  msglength2,
 }) => {
   const classes = useStyles();
 
@@ -77,9 +87,9 @@ const Chat = ({
   };
 
   const handleRoom = (msg_key) => {
-    console.log('handleRoom')
+    console.log("handleRoom");
     rx_focusroom(msg_key);
-    CM_user_msgLength3(msg_key,rx_msglength2)
+    CM_user_msgLength3(msg_key, rx_msglength2);
   };
 
   useEffect(() => {
@@ -90,31 +100,31 @@ const Chat = ({
     rx_loading3(true);
     CM_all_users(rx_all_users, rx_me, rx_loading1);
     CM_allroomlist(rx_allroomlist, rx_myroomlist, rx_loading2);
-    CM_allmsglist(rx_allmsglist,rx_loading3);
+    CM_allmsglist(rx_allmsglist, rx_loading3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    allmsglist[focusroom] ? rx_focusmsg(Object.values(allmsglist[focusroom])) : rx_focusmsg([]);
+    allmsglist[focusroom]
+      ? rx_focusmsg(Object.values(allmsglist[focusroom]))
+      : rx_focusmsg([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allmsglist,focusroom]);
-
+  }, [allmsglist, focusroom]);
 
   useEffect(() => {
     if (allroomlist.length > 0) {
-        CM_msgLength(allmsglist,allroomlist,rx_msglength)
-        console.log('초기 메시지 갯수 세팅')
+      CM_msgLength(allmsglist, allroomlist, rx_msglength);
+      console.log("초기 메시지 갯수 세팅");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allroomlist,allmsglist]);
+  }, [allroomlist, allmsglist]);
 
   useEffect(() => {
     if (allroomlist.length > 0) {
-      CM_my_msgLength(allroomlist,rx_msglength2,all_users);
+      CM_my_msgLength(allroomlist, rx_msglength2, all_users);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allroomlist]);
-
 
   return (
     <React.Fragment>
@@ -126,19 +136,19 @@ const Chat = ({
               <FriendList
                 title="전체 친구 리스트"
                 data={all_users}
-                loading={ loading1 }
+                loading={loading1}
                 event={handleFriend}
               />
               <Divider />
               <FriendList
                 title="나의 방 리스트"
                 data={myroomlist}
-                loading={ loading2 }
+                loading={loading2}
                 event={handleRoom}
               />
             </Grid>
             <Grid item xs={12} sm={8} style={{ position: "relative" }}>
-              <Message focusmsg={focusmsg} loading={ loading3 } />
+              <Message focusmsg={focusmsg} loading={loading3} />
               <InputBox />
             </Grid>
           </Grid>
@@ -147,7 +157,6 @@ const Chat = ({
     </React.Fragment>
   );
 };
-
 
 Chat.propTypes = {
   rx_all_users: PropTypes.func,
@@ -162,10 +171,7 @@ Chat.propTypes = {
   focusroom: PropTypes.string,
   rx_allmsglist: PropTypes.func,
   rx_connected: PropTypes.func,
-  allmsglist: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  allmsglist: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   rx_focusmsg: PropTypes.func,
   focusmsg: PropTypes.array,
 };
@@ -227,7 +233,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_msglength2: (val) => {
     dispatch(rx_msglength2(val));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
