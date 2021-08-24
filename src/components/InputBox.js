@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { fireauth } from "../services/firebase";
-import { sendChat, CM_user_msgLength3 } from "../helpers/common";
+import { sendChat, CM_my_msgLength_change } from "../helpers/common";
 
 import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
@@ -51,7 +51,7 @@ const InputBox = ({ focusroom, me, rx_msglength2 }) => {
       },
       focusroom
     );
-    CM_user_msgLength3(focusroom, rx_msglength2);
+    CM_my_msgLength_change(focusroom, rx_msglength2);
   };
 
   return (

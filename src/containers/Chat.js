@@ -11,7 +11,7 @@ import {
   CM_connectValue,
   CM_msgLength,
   CM_my_msgLength,
-  CM_user_msgLength3,
+  CM_my_msgLength_change,
 } from "../helpers/common";
 
 import {
@@ -89,7 +89,7 @@ const Chat = ({
   const handleRoom = (msg_key) => {
     console.log("handleRoom");
     rx_focusroom(msg_key);
-    CM_user_msgLength3(msg_key, rx_msglength2);
+    CM_my_msgLength_change(msg_key, rx_msglength2);
   };
 
   useEffect(() => {

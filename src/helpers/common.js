@@ -370,7 +370,7 @@ export function CM_msgLength(allmsglist, allroomlist, rx_msglength) {
 }
 
 //##########################################################
-//###########  ################
+//########### 또다른 룸갯수 확인(확인전까진 위의 기능보다 낮은 숫자이다가 확인하는순간 위의기능 숫자와 동일하게 만들어줌) ################
 //##########################################################
 export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
   console.log("CM_my_msgLength 실행");
@@ -383,17 +383,26 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
     .once("value")
     .then((snapshot) => {
       let response = snapshot.val();
-
       if (response) {
+        let clone_response = JSON.parse(JSON.stringify(response));
         all_users.map((item) =>
           allroomlist.map(
             (item2) =>
-              !response[item.uid][item2.msg_key] &&
-              firedatabase
-                .ref(`My_msgLength2/${item.uid}/${item2.msg_key}`)
-                .set(0)
+              !response[item.uid][item2.msg_key] && (clone_response[item.uid][item2.msg_key] = 0)
           )
         );
+        
+        firedatabase.ref(`My_msgLength2/`).set(clone_response);
+      
+        // all_users.map((item) =>
+        //   allroomlist.map(
+        //     (item2,index) =>
+        //       !response[item.uid][item2.msg_key] &&
+        //       firedatabase
+        //         .ref(`My_msgLength2/${item.uid}/${item2.msg_key}`)
+        //         .set(index)
+        //   )
+        // );
       } else {
         all_users.map((item) =>
           allroomlist.map((item2) =>
@@ -415,9 +424,9 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
     });
 }
 
-export function CM_user_msgLength3(msg_key, rx_msglength2) {
+export function CM_my_msgLength_change(msg_key, rx_msglength2) {
   if (msg_key) {
-    console.log("CM_user_msgLength3");
+    console.log("CM_my_msgLength_change");
     console.log("uid", fireauth.currentUser.uid);
     console.log("msg_key", msg_key);
 
@@ -442,3 +451,4 @@ export function CM_user_msgLength3(msg_key, rx_msglength2) {
       });
   }
 }
+//##########################################################
