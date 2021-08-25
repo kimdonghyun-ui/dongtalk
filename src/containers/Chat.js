@@ -44,7 +44,6 @@ import Message from "../components/Message";
 import InputBox from "../components/InputBox";
 import TabBox from "../components/TabBox";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     //height:'450px'
@@ -93,7 +92,7 @@ const Chat = ({
   const handleRoom = (msg_key) => {
     console.log("handleRoom");
     rx_focusroom(msg_key);
-    CM_my_msgLength_change(msg_key, rx_msglength2,msglength2);
+    CM_my_msgLength_change(msg_key, rx_msglength2, msglength2, rx_tabindex);
   };
 
   useEffect(() => {
@@ -160,22 +159,22 @@ const Chat = ({
       </Container> */}
       <TabBox
         content={[
-              <FriendList
-                title="전체 친구 리스트"
-                data={all_users}
-                loading={loading1}
-                event={handleFriend}
+          <FriendList
+            title="전체 친구 리스트"
+            data={all_users}
+            loading={loading1}
+            event={handleFriend}
           />,
-              <FriendList
-                title="나의 방 리스트"
-                data={myroomlist}
-                loading={loading2}
-                event={handleRoom}
+          <FriendList
+            title="나의 방 리스트"
+            data={myroomlist}
+            loading={loading2}
+            event={handleRoom}
           />,
           <>
             <Message focusmsg={focusmsg} loading={loading3} />
             <InputBox />
-          </>
+          </>,
         ]}
       />
     </React.Fragment>

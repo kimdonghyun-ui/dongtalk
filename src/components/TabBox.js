@@ -1,29 +1,31 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
-import Box from '@material-ui/core/Box';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import PersonIcon from "@material-ui/icons/Person";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import PhoneIcon from "@material-ui/icons/Phone";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
+import Box from "@material-ui/core/Box";
 import { rx_tabindex } from "../modules/chats";
-
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     maxWidth: 500,
-    maxHeight: 600,
-    margin: '0 auto',
-    position: 'relative',
-        overflow: 'hidden'
+    height: 600,
+    margin: "0 auto",
+    position: "relative",
+    overflow: "hidden",
   },
- appBar: {
-    top: 'auto',
+  appBar: {
+    top: "auto",
     bottom: 0,
   },
 });
@@ -39,11 +41,7 @@ function TabPanel(props) {
       aria-labelledby={`scrollable-prevent-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -57,10 +55,9 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `scrollable-prevent-tab-${index}`,
-    'aria-controls': `scrollable-prevent-tabpanel-${index}`,
+    "aria-controls": `scrollable-prevent-tabpanel-${index}`,
   };
 }
-
 
 const TabBox = ({ content, rx_tabindex, tabindex }) => {
   const classes = useStyles();
@@ -72,16 +69,14 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
   };
 
   useEffect(() => {
-    console.log("[표시]TabBox.js",tabindex);
+    console.log("[표시]TabBox.js", tabindex);
     setValue(tabindex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabindex!==2]);
+  }, [tabindex]);
 
-  
-    return (
-      <Paper square className={classes.root}>
-
-<TabPanel value={value} index={0}>
+  return (
+    <Paper square className={classes.root}>
+      <TabPanel value={value} index={0}>
         {content[0]}
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -91,22 +86,22 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
         {content[2]}
       </TabPanel>
 
-        <AppBar position="absolute" color="primary" className={classes.appBar}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        variant="fullWidth"
-        indicatorColor="secondary"
-        textColor="secondary"
-        aria-label="icon label tabs example"
-      >
-        <Tab icon={<PhoneIcon />} label="RECENTS" {...a11yProps(0)} />
-        <Tab icon={<FavoriteIcon />} label="FAVORITES" {...a11yProps(1)} />
-        <Tab icon={<PersonPinIcon />} label="NEARBY" {...a11yProps(2)} />
-          </Tabs>
-          </AppBar>
+      <AppBar position="absolute" color="primary" className={classes.appBar}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="fullWidth"
+          indicatorColor="secondary"
+          textColor="secondary"
+          aria-label="icon label tabs example"
+        >
+          <Tab icon={<PersonIcon />} label="친구" {...a11yProps(0)} />
+          <Tab icon={<ViewColumnIcon />} label="방리스트" {...a11yProps(1)} />
+          <Tab icon={<QuestionAnswerIcon />} label="채팅" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
     </Paper>
-    );
+  );
 };
 
 const mapStateToProps = (state) => ({

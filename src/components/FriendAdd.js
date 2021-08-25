@@ -34,30 +34,34 @@ function SimpleDialog(props) {
   };
 
   const handleListItemClick = (uid) => {
-    firedatabase.ref(`room/${focusroom}/uid`).once('value').then((snapshot) => {
-      const f_add = snapshot.val();
-  
-      if (!f_add.includes(uid)) {
-        //중복 친구가 없는경우 추가
-        f_add.push(uid);
-        firedatabase.ref(`room/${focusroom}`)
-          .update({
-            uid:f_add
-          })
-          .then(() => {
-            console.log('친추 완료', f_add);
-          })
-          .catch((error) => {
-            console.log('친추 실패');
-          });
-      } else {
-        //중복 친구가 있는경우 알럿 노출
-        alert('이미 추가된 친구입니다.');
-      };
-    });
+    firedatabase
+      .ref(`room/${focusroom}/uid`)
+      .once("value")
+      .then((snapshot) => {
+        const f_add = snapshot.val();
+
+        if (!f_add.includes(uid)) {
+          //중복 친구가 없는경우 추가
+          f_add.push(uid);
+          firedatabase
+            .ref(`room/${focusroom}`)
+            .update({
+              uid: f_add,
+            })
+            .then(() => {
+              console.log("친추 완료", f_add);
+            })
+            .catch((error) => {
+              console.log("친추 실패");
+            });
+        } else {
+          //중복 친구가 있는경우 알럿 노출
+          alert("이미 추가된 친구입니다.");
+        }
+      });
     onClose(false);
   };
-  
+
   console.log("까르르르궁", data);
   return (
     <Dialog
@@ -65,7 +69,7 @@ function SimpleDialog(props) {
       aria-labelledby="simple-dialog-title"
       open={open}
     >
-      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+      <DialogTitle id="simple-dialog-title">친구 리스트</DialogTitle>
       <List>
         {data.length > 0 ? (
           data.map((item, index) => (
@@ -79,7 +83,7 @@ function SimpleDialog(props) {
                   <PersonIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={item.email} />
+              <ListItemText primary={item.name} />
             </ListItem>
           ))
         ) : (
@@ -96,7 +100,7 @@ function SimpleDialog(props) {
 //   selectedValue: PropTypes.string.isRequired,
 // };
 
-const FriendAdd = ({ all_users,focusroom }) => {
+const FriendAdd = ({ all_users, focusroom }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 

@@ -16,7 +16,7 @@ import {
   Avatar,
   Typography,
   Button,
-  CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -50,30 +50,23 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   listBoxItem: {
-    display: 'block',
+    display: "block",
   },
   listBoxItemavatar: {
     display: "flex",
   },
 }));
 
-const Message = ({ focusmsg ,focusroom, rx_remove, loading }) => {
+const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
   const classes = useStyles();
   console.log("Message-focusroom", focusroom);
   const intervalId = useRef(null);
 
-
-
-
-function scrollToMyRef (){
+  function scrollToMyRef() {
     const scroll =
-      intervalId.current.scrollHeight -
-      intervalId.current.clientHeight;
+      intervalId.current.scrollHeight - intervalId.current.clientHeight;
     intervalId.current.scrollTo(0, scroll);
-  };
-
-
-
+  }
 
   useEffect(() => {
     console.log("[표시]Message.js");
@@ -82,80 +75,92 @@ function scrollToMyRef (){
   }, [focusmsg, focusroom]);
 
   return (
-    <Box style={{ height: "577px", overflowY: "scroll", paddingBottom: "15%" }} ref={intervalId}>
-        {loading &&
-          <Box style={{
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          width:'100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-          }}>
-            <CircularProgress color="secondary" />
-          </Box>
-        }
-      <ListSubheader style={{ display:'flex',justifyContent:'space-between',backgroundColor:'#fff' }}>
+    <Box
+      style={{ height: "420px", overflowY: "scroll", paddingBottom: "15%" }}
+      ref={intervalId}
+    >
+      {loading && (
+        <Box
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress color="secondary" />
+        </Box>
+      )}
+      <ListSubheader
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#fff",
+        }}
+      >
         채팅방
-        {focusroom !== "" &&
-          <FriendAdd />
-        }
+        {focusroom !== "" && <FriendAdd />}
       </ListSubheader>
       <List className={classes.listBox}>
         {focusmsg.length > 0 ? (
           focusmsg.map((data, index) => (
             <ListItem key={index} className={classes.listBoxItem}>
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection:
-                      fireauth.currentUser.uid === data.uid
-                        ? "row-reverse"
-                        : "row",
-                    textAlign:
-                      fireauth.currentUser.uid === data.uid ? "right" : "left",
-                  }}
-                >
-              <ListItemAvatar
-                className={classes.listBoxItemavatar}
+              <Box
                 style={{
-                  justifyContent: fireauth.currentUser.uid === data.uid ? "flex-end" : "flex-start",
+                  display: "flex",
+                  flexDirection:
+                    fireauth.currentUser.uid === data.uid
+                      ? "row-reverse"
+                      : "row",
+                  textAlign:
+                    fireauth.currentUser.uid === data.uid ? "right" : "left",
                 }}
               >
-                <Avatar alt="Remy Sharp" src={data.avatar} />
-              </ListItemAvatar>
+                <ListItemAvatar
+                  className={classes.listBoxItemavatar}
+                  style={{
+                    justifyContent:
+                      fireauth.currentUser.uid === data.uid
+                        ? "flex-end"
+                        : "flex-start",
+                  }}
+                >
+                  <Avatar alt="Remy Sharp" src={data.avatar} />
+                </ListItemAvatar>
 
-              <ListItemText
-                primary={data.name}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textPrimary"
-                      style={{ wordBreak: "break-all" }}
-                    >
-                      {data.message}
-                    </Typography>
-                    <br />
-                    {dateFns.format(data.timestamp, "yyyy-MM-dd-HH-mm-ss")}
-                  </React.Fragment>
-                }
-              />
-              <Button
+                <ListItemText
+                  primary={data.name}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="textPrimary"
+                        style={{ wordBreak: "break-all" }}
+                      >
+                        {data.message}
+                      </Typography>
+                      <br />
+                      {dateFns.format(data.timestamp, "yyyy-MM-dd-HH-mm-ss")}
+                    </React.Fragment>
+                  }
+                />
+                <Button
                   style={{
                     display:
                       fireauth.currentUser.uid !== data.uid
                         ? "none"
                         : "inline-flex",
                   }}
-                onClick={() => removeChats(focusroom, data.key, rx_remove)}
-              >
-                삭제
+                  onClick={() => removeChats(focusroom, data.key, rx_remove)}
+                >
+                  삭제
                 </Button>
-                </Box>
+              </Box>
             </ListItem>
           ))
         ) : (

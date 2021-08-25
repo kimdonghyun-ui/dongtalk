@@ -58,26 +58,38 @@ const FriendItem = ({
   msglength,
   msglength2,
 }) => {
-
-
   const hello = (msg_key) => {
     if (msglength && msglength2) {
-    //console.log('갯수구하기0',msg_key)
-      if (Object.values(msglength).length === Object.values(msglength2[fireauth.currentUser.uid]).length) {
-        if (msglength[msg_key] !== undefined && msglength2[fireauth.currentUser.uid][msg_key] !== undefined ) {
-          console.log('갯수구하기',msglength[msg_key] && msglength[msg_key])
-          console.log('갯수구하기2', msglength2[fireauth.currentUser.uid][msg_key] && msglength2[fireauth.currentUser.uid][msg_key])
-          return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
+      //console.log('갯수구하기0',msg_key)
+      if (
+        Object.values(msglength).length ===
+        Object.values(msglength2[fireauth.currentUser.uid]).length
+      ) {
+        if (
+          msglength[msg_key] !== undefined &&
+          msglength2[fireauth.currentUser.uid][msg_key] !== undefined
+        ) {
+          console.log("갯수구하기", msglength[msg_key] && msglength[msg_key]);
+          console.log(
+            "갯수구하기2",
+            msglength2[fireauth.currentUser.uid][msg_key] &&
+              msglength2[fireauth.currentUser.uid][msg_key]
+          );
+          return (
+            msglength &&
+            msglength2 &&
+            msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key]
+          );
         }
 
-       //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
+        //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
       }
 
-    //   console.log('갯수구하기', msglength[msg_key])
-    // console.log('갯수구하기2',msglength2[fireauth.currentUser.uid][msg_key])
-     }
+      //   console.log('갯수구하기', msglength[msg_key])
+      // console.log('갯수구하기2',msglength2[fireauth.currentUser.uid][msg_key])
+    }
     //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
-  }
+  };
 
   return (
     <li style={{ display: msg_key ? "flex" : "block" }}>
@@ -104,7 +116,9 @@ const FriendItem = ({
       </ListItem>
       {msg_key && (
         <Button
-          onClick={() => CM_removeRooms(msg_key, me, rx_focusroom, rx_focusmsg, all_users)}
+          onClick={() =>
+            CM_removeRooms(msg_key, me, rx_focusroom, rx_focusmsg, all_users)
+          }
         >
           삭제
         </Button>

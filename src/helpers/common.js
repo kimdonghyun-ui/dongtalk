@@ -268,7 +268,7 @@ export function CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex) {
     (element) =>
       JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
   );
-  
+
   rx_tabindex(2);
   if (!clone_allroomlist) {
     //방이 없는경우 새방을 만들어준다.
@@ -285,11 +285,11 @@ export function CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex) {
   } else {
     //이미 방이 있는경우 포커스룸만 현재꺼로 채워준다.
     let clone_allroomlist2 = JSON.parse(JSON.stringify(allroomlist));
-    clone_allroomlist2 = clone_allroomlist2.filter((item) =>
-      JSON.stringify(item.uid.sort()) === JSON.stringify(clone_data)
+    clone_allroomlist2 = clone_allroomlist2.filter(
+      (item) => JSON.stringify(item.uid.sort()) === JSON.stringify(clone_data)
     )[0].msg_key;
-    
-    console.log('이미 방이 있습니다. 현재룸', clone_allroomlist2);
+
+    console.log("이미 방이 있습니다. 현재룸", clone_allroomlist2);
     rx_focusroom(clone_allroomlist2);
   }
 }
@@ -397,12 +397,13 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
         all_users.map((item) =>
           allroomlist.map(
             (item2) =>
-              !response[item.uid][item2.msg_key] && (clone_response[item.uid][item2.msg_key] = 0)
+              !response[item.uid][item2.msg_key] &&
+              (clone_response[item.uid][item2.msg_key] = 0)
           )
         );
-        
+
         firedatabase.ref(`My_msgLength2/`).set(clone_response);
-      
+
         // all_users.map((item) =>
         //   allroomlist.map(
         //     (item2,index) =>
@@ -433,7 +434,12 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
     });
 }
 
-export function CM_my_msgLength_change(msg_key, rx_msglength2, msglength2) {
+export function CM_my_msgLength_change(
+  msg_key,
+  rx_msglength2,
+  msglength2,
+  rx_tabindex
+) {
   if (msg_key) {
     console.log("CM_my_msgLength_change");
     console.log("uid", fireauth.currentUser.uid);
@@ -458,21 +464,21 @@ export function CM_my_msgLength_change(msg_key, rx_msglength2, msglength2) {
               console.log("Data saved successfully!");
               //리덕스에도 넣어주기
               let clone_msglength2 = JSON.parse(JSON.stringify(msglength2));
-              clone_msglength2[fireauth.currentUser.uid][msg_key] = response
-              console.log(clone_msglength2)
-                rx_msglength2(clone_msglength2);
+              clone_msglength2[fireauth.currentUser.uid][msg_key] = response;
+              console.log(clone_msglength2);
+              rx_msglength2(clone_msglength2);
+              rx_tabindex(2);
             }
           });
-         
 
-//         firedatabase
-//           .ref(`My_msgLength2`)
-//           .once("value")
-//           .then((snapshot) => {
-//             let response = snapshot.val();
-// console.log('My_msgLength2My_msgLength2My_msgLength2',response)
-//             //rx_msglength2(response);
-//           });
+        //         firedatabase
+        //           .ref(`My_msgLength2`)
+        //           .once("value")
+        //           .then((snapshot) => {
+        //             let response = snapshot.val();
+        // console.log('My_msgLength2My_msgLength2My_msgLength2',response)
+        //             //rx_msglength2(response);
+        //           });
       });
   }
 }
