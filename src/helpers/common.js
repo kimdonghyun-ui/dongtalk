@@ -424,11 +424,13 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
     });
 }
 
-export function CM_my_msgLength_change(msg_key, rx_msglength2) {
+export function CM_my_msgLength_change(msg_key, rx_msglength2, msglength2) {
   if (msg_key) {
     console.log("CM_my_msgLength_change");
     console.log("uid", fireauth.currentUser.uid);
     console.log("msg_key", msg_key);
+    // console.log("msglength2msglength2", msglength2['2K13LFWW5kNaThUcjkSjPZKgVKp2']['-Mhn_j1VPLJpmkd1sSc_'] = 10);
+    // console.log("msglength2msglength2", msglength2);
 
     firedatabase
       .ref(`msgLength/${msg_key}`)
@@ -438,16 +440,30 @@ export function CM_my_msgLength_change(msg_key, rx_msglength2) {
         console.log(response);
         firedatabase
           .ref(`My_msgLength2/${fireauth.currentUser.uid}/${msg_key}`)
-          .set(response);
-
-        firedatabase
-          .ref(`My_msgLength2`)
-          .once("value")
-          .then((snapshot) => {
-            let response = snapshot.val();
-
-            rx_msglength2(response);
+          .set(response, (error) => {
+            if (error) {
+              // The write failed...
+              console.log("The write failed...");
+            } else {
+              // Data saved successfully!
+              console.log("Data saved successfully!");
+              //리덕스에도 넣어주기
+              let clone_msglength2 = JSON.parse(JSON.stringify(msglength2));
+              clone_msglength2[fireauth.currentUser.uid][msg_key] = response
+              console.log(clone_msglength2)
+                rx_msglength2(clone_msglength2);
+            }
           });
+         
+
+//         firedatabase
+//           .ref(`My_msgLength2`)
+//           .once("value")
+//           .then((snapshot) => {
+//             let response = snapshot.val();
+// console.log('My_msgLength2My_msgLength2My_msgLength2',response)
+//             //rx_msglength2(response);
+//           });
       });
   }
 }

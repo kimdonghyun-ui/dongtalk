@@ -89,7 +89,7 @@ const Chat = ({
   const handleRoom = (msg_key) => {
     console.log("handleRoom");
     rx_focusroom(msg_key);
-    CM_my_msgLength_change(msg_key, rx_msglength2);
+    CM_my_msgLength_change(msg_key, rx_msglength2,msglength2);
   };
 
   useEffect(() => {

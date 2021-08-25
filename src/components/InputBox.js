@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InputBox = ({ focusroom, me, rx_msglength2 }) => {
+const InputBox = ({ focusroom, me, rx_msglength2, msglength2 }) => {
   const classes = useStyles();
   const [msg, setMsg] = useState("");
 
@@ -51,7 +51,7 @@ const InputBox = ({ focusroom, me, rx_msglength2 }) => {
       },
       focusroom
     );
-    CM_my_msgLength_change(focusroom, rx_msglength2);
+    CM_my_msgLength_change(focusroom, rx_msglength2, msglength2);
   };
 
   return (
@@ -81,6 +81,7 @@ const InputBox = ({ focusroom, me, rx_msglength2 }) => {
 const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
   me: state.chats.me[0],
+  msglength2: state.chats.msglength2,
 });
 
 const mapDispatchToProps = (dispatch) => ({
