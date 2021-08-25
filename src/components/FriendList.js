@@ -13,7 +13,7 @@ import { CM_me_connected } from "../helpers/common";
 const useStyles = makeStyles((theme) => ({
   root: {},
   list: {
-    height: "240px",
+    height: "556px",
     overflowY: "scroll",
   },
   divider: {

@@ -41,6 +41,8 @@ import {
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
 import InputBox from "../components/InputBox";
+import TabBox from "../components/TabBox";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,7 +131,7 @@ const Chat = ({
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md" className={classes.root}>
+      {/* <Container maxWidth="md" className={classes.root}>
         <Paper className={classes.chat_wrap} elevation={1}>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={4} className={classes.sectionDesktop}>
@@ -153,7 +155,27 @@ const Chat = ({
             </Grid>
           </Grid>
         </Paper>
-      </Container>
+      </Container> */}
+      <TabBox
+        content={[
+              <FriendList
+                title="전체 친구 리스트"
+                data={all_users}
+                loading={loading1}
+                event={handleFriend}
+          />,
+              <FriendList
+                title="나의 방 리스트"
+                data={myroomlist}
+                loading={loading2}
+                event={handleRoom}
+          />,
+          <>
+            <Message focusmsg={focusmsg} loading={loading3} />
+            <InputBox />
+          </>
+        ]}
+      />
     </React.Fragment>
   );
 };
