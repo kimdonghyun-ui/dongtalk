@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,14 +9,18 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import Box from '@material-ui/core/Box';
+import { rx_tabindex } from "../modules/chats";
+
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     maxWidth: 500,
-    height: '100%',
+    maxHeight: 600,
     margin: '0 auto',
-    position:'relative'
+    position: 'relative',
+        overflow: 'hidden'
   },
  appBar: {
     top: 'auto',
@@ -58,15 +62,22 @@ function a11yProps(index) {
 }
 
 
-const TabBox = ({ content }) => {
+const TabBox = ({ content, rx_tabindex, tabindex }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    rx_tabindex(newValue);
   };
 
+  useEffect(() => {
+    console.log("[표시]TabBox.js",tabindex);
+    setValue(tabindex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabindex!==2]);
 
+  
     return (
       <Paper square className={classes.root}>
 
@@ -98,4 +109,14 @@ const TabBox = ({ content }) => {
     );
 };
 
-export default TabBox;
+const mapStateToProps = (state) => ({
+  tabindex: state.chats.tabindex,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  rx_tabindex: (val) => {
+    dispatch(rx_tabindex(val));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabBox);

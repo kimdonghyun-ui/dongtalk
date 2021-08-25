@@ -28,6 +28,7 @@ import {
   rx_loading3,
   rx_msglength,
   rx_msglength2,
+  rx_tabindex,
 } from "../modules/chats";
 
 import {
@@ -81,11 +82,12 @@ const Chat = ({
   rx_msglength2,
   msglength,
   msglength2,
+  rx_tabindex,
 }) => {
   const classes = useStyles();
 
   const handleFriend = (you) => {
-    CM_Roomadd(me, you, allroomlist);
+    CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex);
   };
 
   const handleRoom = (msg_key) => {
@@ -255,6 +257,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   rx_msglength2: (val) => {
     dispatch(rx_msglength2(val));
+  },
+  rx_tabindex: (val) => {
+    dispatch(rx_tabindex(val));
   },
 });
 

@@ -6,6 +6,8 @@ import { rx_authenticated } from "./modules/chats";
 import { CM_logout } from "./helpers/common";
 import { CM_login_state } from "./helpers/common";
 
+import Button from '@material-ui/core/Button';
+
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import SignUp from "./containers/SignUp";
@@ -39,14 +41,11 @@ function App({ rx_authenticated, authenticated, me }) {
         />
       </Switch>
       {authenticated &&
-        <button
+        <Button variant="contained"
+          style={{ display:'flex' , width: '200px', height: '50px', margin:'50px auto 0 auto' }}
           onClick={() => {
-            // connectCheck(false);
             CM_logout();
-          }}
-        >
-        로그아웃({ me && me.name })
-        </button>
+          }}>로그아웃({ me && me.name })</Button>
       }
     </HashRouter>
   );

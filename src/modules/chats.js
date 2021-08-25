@@ -15,7 +15,7 @@ const RX_LOADING3 = "menu/RX_LOADING3";
 const RX_MSGLENGTH = "menu/RX_MSGLENGTH";
 const RX_MSGLENGTH2 = "menu/RX_MSGLENGTH2";
 
-
+const RX_TABINDEX = "menu/RX_TABINDEX";
 
 export const rx_authenticated = (result) => ({
   type: RX_AUTHENTICATED,
@@ -89,7 +89,10 @@ export const rx_msglength2 = (result) => ({
   result,
 });
 
-
+export const rx_tabindex = (result) => ({
+  type: RX_TABINDEX,
+  result,
+});
 
 const initialState = {
   authenticated: false,
@@ -106,6 +109,7 @@ const initialState = {
   loading3: false,
   msglength: null,
   msglength2: null,
+  tabindex:0
 };
 
 function chats(state = initialState, action) {
@@ -188,6 +192,11 @@ function chats(state = initialState, action) {
         msglength2: action.result,
       };
     
+    case RX_TABINDEX:
+      return {
+        ...state,
+        tabindex: action.result,
+      };
     
     default:
       return state;

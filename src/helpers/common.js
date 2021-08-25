@@ -257,7 +257,7 @@ export function CM_logout() {
 //##########################################################
 //########### 내 룸 개설 ################
 //##########################################################
-export function CM_Roomadd(me, you, allroomlist) {
+export function CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex) {
   const data = [me.uid, you];
   const clone_data = [me.uid, you].sort();
   console.log("handleFriend", data[0], data[1]);
@@ -268,8 +268,10 @@ export function CM_Roomadd(me, you, allroomlist) {
     (element) =>
       JSON.stringify(element.uid.sort()) === JSON.stringify(clone_data)
   );
-
+  
+  rx_tabindex(2);
   if (!clone_allroomlist) {
+    //방이 없는경우 새방을 만들어준다.
     var newPostKey = firedatabase.ref("room").push().key;
     var postData = {
       uid: [me.uid, you],
@@ -281,7 +283,14 @@ export function CM_Roomadd(me, you, allroomlist) {
     updates["/room/" + newPostKey] = postData;
     return firedatabase.ref().update(updates);
   } else {
-    alert("이미 방이 존재합니다.");
+    //이미 방이 있는경우 포커스룸만 현재꺼로 채워준다.
+    let clone_allroomlist2 = JSON.parse(JSON.stringify(allroomlist));
+    clone_allroomlist2 = clone_allroomlist2.filter((item) =>
+      JSON.stringify(item.uid.sort()) === JSON.stringify(clone_data)
+    )[0].msg_key;
+    
+    console.log('이미 방이 있습니다. 현재룸', clone_allroomlist2);
+    rx_focusroom(clone_allroomlist2);
   }
 }
 //##########################################################
