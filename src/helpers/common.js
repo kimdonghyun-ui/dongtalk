@@ -273,6 +273,7 @@ export function CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex) {
   if (!clone_allroomlist) {
     //방이 없는경우 새방을 만들어준다.
     var newPostKey = firedatabase.ref("room").push().key;
+    rx_focusroom(newPostKey);
     var postData = {
       uid: [me.uid, you],
       name: [],
