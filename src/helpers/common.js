@@ -467,7 +467,7 @@ export function CM_my_msgLength_change(
               clone_msglength2[fireauth.currentUser.uid][msg_key] = response;
               console.log(clone_msglength2);
               rx_msglength2(clone_msglength2);
-              rx_tabindex(2);
+              rx_tabindex && rx_tabindex(2);
             }
           });
 
