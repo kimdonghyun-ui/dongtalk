@@ -113,7 +113,6 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading, me }) => {
   return (
     <Box
       className={classes.root}
-      ref={intervalId}
     >
       {loading && (
         <Box
@@ -148,7 +147,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading, me }) => {
         채팅방
         {focusroom !== "" && <FriendAdd />}
       </ListSubheader>
-      <List className={classes.listBox}>
+      <List className={classes.listBox} ref={intervalId}>
         {focusmsg.length > 0 ? (
           focusmsg.map((data, index) => (
             <ListItem key={index} className={classes.listBoxItem}>
@@ -188,7 +187,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading, me }) => {
                         {data.message}
                       </Typography>
                       <br />
-                      {dateFns.format(data.timestamp, "yyyy-MM-dd-HH-mm-ss")}
+                      {dateFns.format(data.timestamp, "yyyy-MM-dd HH:mm:ss")}
                     </React.Fragment>
                   }
                 />
