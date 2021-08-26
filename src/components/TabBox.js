@@ -11,13 +11,14 @@ import Box from "@material-ui/core/Box";
 import { rx_tabindex } from "../modules/chats";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { connect } from "react-redux";
+import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
     margin: "0 auto",
     overflow: "hidden",
   },
@@ -93,7 +94,15 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
           aria-label="icon label tabs example"
         >
           <Tab icon={<PersonIcon />} label="친구" {...a11yProps(0)} />
-          <Tab icon={<ViewColumnIcon />} label="방리스트" {...a11yProps(1)} />
+          <Tab
+            icon={
+              <Badge color="secondary" badgeContent={1}>
+                <ViewColumnIcon />
+              </Badge>
+            }
+            label="방리스트"
+            {...a11yProps(1)}
+          />
           <Tab icon={<QuestionAnswerIcon />} label="채팅" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
