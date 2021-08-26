@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/dongtalk/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/dongtalk/static/js/main.45a59b96.chunk.js",
-    "main.js.map": "/dongtalk/static/js/main.45a59b96.chunk.js.map",
+    "main.js": "/dongtalk/static/js/main.3e6d1529.chunk.js",
+    "main.js.map": "/dongtalk/static/js/main.3e6d1529.chunk.js.map",
     "runtime-main.js": "/dongtalk/static/js/runtime-main.0dc8f5dd.js",
     "runtime-main.js.map": "/dongtalk/static/js/runtime-main.0dc8f5dd.js.map",
     "static/js/2.43d516b0.chunk.js": "/dongtalk/static/js/2.43d516b0.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.0dc8f5dd.js",
     "static/js/2.43d516b0.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.45a59b96.chunk.js"
+    "static/js/main.3e6d1529.chunk.js"
   ]
 }
