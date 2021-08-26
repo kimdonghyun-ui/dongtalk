@@ -216,7 +216,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading, me }) => {
 
 const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
-  me: state.chats.me,
+  me: state.chats.me[0],
 });
 
 const mapDispatchToProps = (dispatch) => ({
