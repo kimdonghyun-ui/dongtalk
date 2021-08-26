@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
+const Message = ({ focusmsg, focusroom, rx_remove, loading, me }) => {
   const classes = useStyles();
   console.log("Message-focusroom", focusroom);
   const intervalId = useRef(null);
@@ -132,7 +132,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
         </Box>
       )}
       <div className={classes.title}>
-        김동현
+        {me && me.name} 
         <Button onClick={() => {
             CM_logout();
           }}>로그아웃</Button>
@@ -216,6 +216,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
 
 const mapStateToProps = (state) => ({
   focusroom: state.chats.focusroom,
+  me: state.chats.me,
 });
 
 const mapDispatchToProps = (dispatch) => ({
