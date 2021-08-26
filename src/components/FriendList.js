@@ -6,19 +6,45 @@ import { connect } from "react-redux";
 
 import FriendItem from "./FriendItem";
 
-import { Box, List, CircularProgress } from "@material-ui/core";
+import { Box, List, CircularProgress, Button } from "@material-ui/core";
 
-import { CM_me_connected } from "../helpers/common";
+import { CM_me_connected, CM_logout } from "../helpers/common";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    paddingTop: '26px'
+  },
   list: {
-    height: "456px",
+    position: 'absolute',
+    top: '98px',
+    bottom: '72px',
+    left: '24px',
+    right: '25px',
     overflowY: "scroll",
   },
   divider: {
     // margin: '20px 0',
   },
+  title: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '50px',
+    padding:'0 24px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3f51b5',
+    color: '#fff',
+    fontSize: '20px',
+    fontWeight:'bold',
+    "& button": {
+      position: 'absolute',
+      right: '10px',
+      color:'#fff'
+    }
+  }
 }));
 
 const FriendList = ({
@@ -48,7 +74,13 @@ const FriendList = ({
 
   return (
     <Box className={classes.root}>
-      <ListSubheader>{title}</ListSubheader>
+      <div  className={classes.title}>
+        {me && me.name} 
+        <Button onClick={() => {
+            CM_logout();
+          }}>로그아웃</Button>
+      </div>
+      <ListSubheader component="div">{title}</ListSubheader>
 
       <List className={classes.list}>
         {loading && (

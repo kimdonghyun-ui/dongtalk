@@ -4,7 +4,7 @@ import { rx_remove } from "../modules/chats";
 import { fireauth } from "../services/firebase";
 
 import * as dateFns from "date-fns";
-import { removeChats } from "../helpers/common";
+import { removeChats, CM_logout } from "../helpers/common";
 import ListSubheader from "@material-ui/core/ListSubheader";
 
 import {
@@ -24,6 +24,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import FriendAdd from "./FriendAdd";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop:'26px',
+
+    // position: 'absolute',
+    // top: '50px',
+    // bottom: '72px',
+    // left: '24px',
+    // right: '25px',
+    // overflowY: "scroll",
+  },
   lBox: {
     flexDirection: "row-reverse",
     display: "flex",
@@ -48,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
   listBox: {
     display: "flex",
     flexDirection: "column",
+    position: 'absolute',
+    top: '98px',
+    bottom: '165px',
+    left: '24px',
+    right: '25px',
+    overflowY: "scroll",
   },
   listBoxItem: {
     display: "block",
@@ -55,6 +71,26 @@ const useStyles = makeStyles((theme) => ({
   listBoxItemavatar: {
     display: "flex",
   },
+  title: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '50px',
+    padding:'0 24px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3f51b5',
+    color: '#fff',
+    fontSize: '20px',
+    fontWeight:'bold',
+    "& button": {
+      position: 'absolute',
+      right: '10px',
+      color:'#fff'
+    }
+  }
 }));
 
 const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
@@ -76,7 +112,7 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
 
   return (
     <Box
-      style={{ height: "420px", overflowY: "scroll", paddingBottom: "15%" }}
+      className={classes.root}
       ref={intervalId}
     >
       {loading && (
@@ -95,7 +131,14 @@ const Message = ({ focusmsg, focusroom, rx_remove, loading }) => {
           <CircularProgress color="secondary" />
         </Box>
       )}
+      <div className={classes.title}>
+        김동현
+        <Button onClick={() => {
+            CM_logout();
+          }}>로그아웃</Button>
+      </div>
       <ListSubheader
+        component="div"
         style={{
           display: "flex",
           justifyContent: "space-between",

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { connect } from "react-redux";
 import {
   CM_all_users,
@@ -33,27 +33,12 @@ import {
 
 import {
   CssBaseline,
-  Grid,
-  Container,
-  Paper,
-  Divider,
 } from "@material-ui/core";
 
 import FriendList from "../components/FriendList";
 import Message from "../components/Message";
 import InputBox from "../components/InputBox";
 import TabBox from "../components/TabBox";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    //height:'450px'
-  },
-  chat_wrap: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-    height: "577px",
-  },
-}));
 
 const Chat = ({
   rx_all_users,
@@ -83,7 +68,7 @@ const Chat = ({
   msglength2,
   rx_tabindex,
 }) => {
-  const classes = useStyles();
+
 
   const handleFriend = (you) => {
     CM_Roomadd(me, you, allroomlist, rx_focusroom, rx_tabindex);
@@ -132,31 +117,6 @@ const Chat = ({
   return (
     <React.Fragment>
       <CssBaseline />
-      {/* <Container maxWidth="md" className={classes.root}>
-        <Paper className={classes.chat_wrap} elevation={1}>
-          <Grid container spacing={0}>
-            <Grid item xs={12} sm={4} className={classes.sectionDesktop}>
-              <FriendList
-                title="전체 친구 리스트"
-                data={all_users}
-                loading={loading1}
-                event={handleFriend}
-              />
-              <Divider />
-              <FriendList
-                title="나의 방 리스트"
-                data={myroomlist}
-                loading={loading2}
-                event={handleRoom}
-              />
-            </Grid>
-            <Grid item xs={12} sm={8} style={{ position: "relative" }}>
-              <Message focusmsg={focusmsg} loading={loading3} />
-              <InputBox />
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container> */}
       <TabBox
         content={[
           <FriendList

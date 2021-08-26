@@ -42,7 +42,7 @@ function App({ rx_authenticated, authenticated, me }) {
       </Switch>
       {authenticated &&
         <Button variant="contained"
-          style={{ display:'flex' , width: '200px', height: '50px', margin:'50px auto 0 auto' }}
+          style={{ display:'none' , width: '200px', height: '50px', margin:'50px auto 0 auto' }}
           onClick={() => {
             CM_logout();
           }}>로그아웃({ me && me.name })</Button>

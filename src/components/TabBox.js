@@ -6,10 +6,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PhoneIcon from "@material-ui/icons/Phone";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PersonPinIcon from "@material-ui/icons/PersonPin";
 import Box from "@material-ui/core/Box";
 import { rx_tabindex } from "../modules/chats";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
@@ -18,10 +15,10 @@ import { connect } from "react-redux";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    maxWidth: 500,
-    height: 600,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
     margin: "0 auto",
-    position: "relative",
     overflow: "hidden",
   },
   appBar: {
@@ -86,7 +83,7 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
         {content[2]}
       </TabPanel>
 
-      <AppBar position="absolute" color="primary" className={classes.appBar}>
+      <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Tabs
           value={value}
           onChange={handleChange}
