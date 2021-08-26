@@ -397,9 +397,18 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
         let clone_response = JSON.parse(JSON.stringify(response));
         all_users.map((item) =>
           allroomlist.map(
-            (item2) =>
-              !response[item.uid][item2.msg_key] &&
-              (clone_response[item.uid][item2.msg_key] = 0)
+            (item2) => {
+              if (response[item.uid]) {
+                console.log('있어')                
+                !response[item.uid][item2.msg_key] &&
+                (clone_response[item.uid][item2.msg_key] = 0)  
+              } else {
+                console.log('없어')
+                clone_response[item.uid] = { [item2.msg_key] : 0 } 
+              }
+              return  clone_response
+            }
+
           )
         );
 
@@ -445,8 +454,6 @@ export function CM_my_msgLength_change(
     console.log("CM_my_msgLength_change");
     console.log("uid", fireauth.currentUser.uid);
     console.log("msg_key", msg_key);
-    // console.log("msglength2msglength2", msglength2['2K13LFWW5kNaThUcjkSjPZKgVKp2']['-Mhn_j1VPLJpmkd1sSc_'] = 10);
-    // console.log("msglength2msglength2", msglength2);
 
     firedatabase
       .ref(`msgLength/${msg_key}`)
