@@ -14,6 +14,7 @@ const RX_LOADING3 = "menu/RX_LOADING3";
 
 const RX_MSGLENGTH = "menu/RX_MSGLENGTH";
 const RX_MSGLENGTH2 = "menu/RX_MSGLENGTH2";
+const RX_ALL_MY_MSGLENGTH = "menu/RX_ALL_MY_MSGLENGTH";
 
 const RX_TABINDEX = "menu/RX_TABINDEX";
 
@@ -88,6 +89,11 @@ export const rx_msglength2 = (result) => ({
   type: RX_MSGLENGTH2,
   result,
 });
+export const rx_all_my_msglength = (result) => ({
+  type: RX_ALL_MY_MSGLENGTH,
+  result,
+});
+
 
 export const rx_tabindex = (result) => ({
   type: RX_TABINDEX,
@@ -109,6 +115,7 @@ const initialState = {
   loading3: false,
   msglength: null,
   msglength2: null,
+  all_my_msglength: 0,
   tabindex:0
 };
 
@@ -190,6 +197,11 @@ function chats(state = initialState, action) {
       return {
         ...state,
         msglength2: action.result,
+      };
+    case RX_ALL_MY_MSGLENGTH:
+      return {
+        ...state,
+        all_my_msglength: action.result,
       };
     
     case RX_TABINDEX:

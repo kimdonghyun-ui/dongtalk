@@ -12,6 +12,7 @@ import {
   CM_msgLength,
   CM_my_msgLength,
   CM_my_msgLength_change,
+  CM_my_msgLength_change2
 } from "../helpers/common";
 
 import {
@@ -29,6 +30,7 @@ import {
   rx_msglength,
   rx_msglength2,
   rx_tabindex,
+  rx_all_my_msglength
 } from "../modules/chats";
 
 import {
@@ -67,6 +69,7 @@ const Chat = ({
   msglength,
   msglength2,
   rx_tabindex,
+  rx_all_my_msglength
 }) => {
 
 
@@ -113,6 +116,13 @@ const Chat = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allroomlist]);
+
+  useEffect(() => {
+    if (msglength !== null && msglength2 !== null) {
+        CM_my_msgLength_change2(msglength, msglength2, myroomlist, rx_all_my_msglength);
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msglength,msglength2]);
 
   return (
     <React.Fragment>
@@ -220,6 +230,9 @@ const mapDispatchToProps = (dispatch) => ({
   rx_tabindex: (val) => {
     dispatch(rx_tabindex(val));
   },
+  rx_all_my_msglength: (val) => {
+    dispatch(rx_all_my_msglength(val));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

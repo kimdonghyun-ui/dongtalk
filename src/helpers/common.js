@@ -491,3 +491,41 @@ export function CM_my_msgLength_change(
   }
 }
 //##########################################################
+
+
+
+
+export function CM_my_msgLength_change2(msglength,clone_msglength2,myroomlist,rx_all_my_msglength) {
+  console.log('#----CM_my_msgLength_change2------')
+  // console.log(msglength)
+  // console.log(clone_msglength2)
+  // console.log(myroomlist)
+  // console.log(rx_all_my_msglength)
+
+  console.log('#----------')
+  
+  console.log('msglength',msglength)
+  console.log('clone_msglength2', clone_msglength2[fireauth.currentUser.uid])
+  if (myroomlist) {
+    let hello = myroomlist.map((item) => msglength[item.msg_key]);
+    let hello2 = myroomlist.map((item) => clone_msglength2[fireauth.currentUser.uid][item.msg_key]);
+
+
+    hello = hello.reduce((stack, el) => {
+      return stack + el;
+    }, 0);
+    hello2 = hello2.reduce((stack, el) => {
+      return stack + el;
+    }, 0);
+    //     const found = Object.values(msglength).filter((element) =>
+    //       element.uid.some((item) => item === fireauth.currentUser.uid)
+    // );
+    // console.log('found', Object.values(msglength))
+
+    console.log(hello)
+    console.log(hello2)
+    rx_all_my_msglength(hello - hello2);
+    console.log('#----------', hello - hello2)
+  }
+
+}

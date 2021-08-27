@@ -57,7 +57,7 @@ function a11yProps(index) {
   };
 }
 
-const TabBox = ({ content, rx_tabindex, tabindex }) => {
+const TabBox = ({ content, rx_tabindex, tabindex, all_my_msglength }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -96,7 +96,7 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
           <Tab icon={<PersonIcon />} label="친구" {...a11yProps(0)} />
           <Tab
             icon={
-              <Badge color="secondary" badgeContent={1}>
+              <Badge color="secondary" badgeContent={all_my_msglength}>
                 <ViewColumnIcon />
               </Badge>
             }
@@ -112,6 +112,7 @@ const TabBox = ({ content, rx_tabindex, tabindex }) => {
 
 const mapStateToProps = (state) => ({
   tabindex: state.chats.tabindex,
+  all_my_msglength: state.chats.all_my_msglength,
 });
 
 const mapDispatchToProps = (dispatch) => ({
