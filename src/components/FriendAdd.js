@@ -131,31 +131,7 @@ const FriendAdd = ({ all_users, focusroom }) => {
 
 const mapStateToProps = (state) => ({
   all_users: state.chats.all_users,
-  // myroomlist: state.chats.myroomlist,
-  // allroomlist: state.chats.allroomlist,
-  // me: state.chats.me[0],
   focusroom: state.chats.focusroom,
 });
-
-//   const mapDispatchToProps = (dispatch) => ({
-//     rx_all_users: (val) => {
-//       dispatch(rx_all_users(val));
-//     },
-//     rx_me: (val) => {
-//       dispatch(rx_me(val));
-//     },
-//     rx_myroomlist: (val) => {
-//       dispatch(rx_myroomlist(val));
-//     },
-//     rx_allroomlist: (val) => {
-//       dispatch(rx_allroomlist(val));
-//     },
-//     rx_focusroom: (val) => {
-//       dispatch(rx_focusroom(val));
-//     },
-//     rx_msglist: (val) => {
-//       dispatch(rx_msglist(val));
-//     },
-//   });
 
 export default connect(mapStateToProps, null)(FriendAdd);

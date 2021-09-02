@@ -60,7 +60,6 @@ const FriendItem = ({
 }) => {
   const hello = (msg_key) => {
     if (msglength && msglength2) {
-      //console.log('갯수구하기0',msg_key)
       if (
         Object.values(msglength).length ===
         Object.values(msglength2[fireauth.currentUser.uid]).length
@@ -81,14 +80,8 @@ const FriendItem = ({
             msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key]
           );
         }
-
-        //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
       }
-
-      //   console.log('갯수구하기', msglength[msg_key])
-      // console.log('갯수구하기2',msglength2[fireauth.currentUser.uid][msg_key])
     }
-    //return msglength && msglength2 && msglength[msg_key] - msglength2[fireauth.currentUser.uid][msg_key];
   };
 
   return (
@@ -108,9 +101,6 @@ const FriendItem = ({
               <Avatar alt="Remy Sharp" src={avatar} />
             </StyledBadge>
           </Badge>
-          {/* <Avatar>
-                  <BeachAccessIcon />
-                </Avatar> */}
         </ListItemAvatar>
         <ListItemText primary={text} secondary={sub} />
       </ListItem>

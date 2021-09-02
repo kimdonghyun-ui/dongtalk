@@ -332,14 +332,7 @@ export function CM_me_connected(all_connected, uid) {
   //all_connected:리덕스의 all_connected 를 넣어주고
   //uid:리덕의 all_users가 포문 돌면서 하나하나 접근할때 있는 uid값
   if (all_connected !== "") {
-    // console.log("######################################");
-    // console.log("all_connected", all_connected);
-    // console.log("uid", uid);
     const found = all_connected.filter((element) => element.uid === uid);
-    // console.log(
-    //   "foundfoundfoundfoundfoundfoundfoundfoundfoundfoundfoundfound",
-    //   found
-    // );
     return found.length > 0 && found[0].connection;
   }
 }
@@ -413,16 +406,6 @@ export function CM_my_msgLength(allroomlist, rx_msglength2, all_users) {
         );
 
         firedatabase.ref(`My_msgLength2/`).set(clone_response);
-
-        // all_users.map((item) =>
-        //   allroomlist.map(
-        //     (item2,index) =>
-        //       !response[item.uid][item2.msg_key] &&
-        //       firedatabase
-        //         .ref(`My_msgLength2/${item.uid}/${item2.msg_key}`)
-        //         .set(index)
-        //   )
-        // );
       } else {
         all_users.map((item) =>
           allroomlist.map((item2) =>
@@ -452,8 +435,6 @@ export function CM_my_msgLength_change(
 ) {
   if (msg_key) {
     console.log("CM_my_msgLength_change");
-    console.log("uid", fireauth.currentUser.uid);
-    console.log("msg_key", msg_key);
 
     firedatabase
       .ref(`msgLength/${msg_key}`)
@@ -478,15 +459,6 @@ export function CM_my_msgLength_change(
               rx_tabindex && rx_tabindex(2);
             }
           });
-
-        //         firedatabase
-        //           .ref(`My_msgLength2`)
-        //           .once("value")
-        //           .then((snapshot) => {
-        //             let response = snapshot.val();
-        // console.log('My_msgLength2My_msgLength2My_msgLength2',response)
-        //             //rx_msglength2(response);
-        //           });
       });
   }
 }
@@ -496,36 +468,18 @@ export function CM_my_msgLength_change(
 
 
 export function CM_my_msgLength_change2(msglength,clone_msglength2,myroomlist,rx_all_my_msglength) {
-  console.log('#----CM_my_msgLength_change2------')
-  // console.log(msglength)
-  // console.log(clone_msglength2)
-  // console.log(myroomlist)
-  // console.log(rx_all_my_msglength)
+  console.log('#----CM_my_msgLength_change2');
 
-  console.log('#----------')
-  
-  console.log('msglength',msglength)
-  console.log('clone_msglength2', clone_msglength2[fireauth.currentUser.uid])
   if (myroomlist) {
     let hello = myroomlist.map((item) => msglength[item.msg_key]);
     let hello2 = myroomlist.map((item) => clone_msglength2[fireauth.currentUser.uid][item.msg_key]);
-
-
     hello = hello.reduce((stack, el) => {
       return stack + el;
     }, 0);
     hello2 = hello2.reduce((stack, el) => {
       return stack + el;
     }, 0);
-    //     const found = Object.values(msglength).filter((element) =>
-    //       element.uid.some((item) => item === fireauth.currentUser.uid)
-    // );
-    // console.log('found', Object.values(msglength))
-
-    console.log(hello)
-    console.log(hello2)
     rx_all_my_msglength(hello - hello2);
-    console.log('#----------', hello - hello2)
   }
 
 }
