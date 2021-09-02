@@ -472,7 +472,7 @@ export function CM_my_msgLength_change2(msglength,clone_msglength2,myroomlist,rx
 
   if (myroomlist) {
     let hello = myroomlist.map((item) => msglength[item.msg_key]);
-    let hello2 = myroomlist.map((item) => clone_msglength2[fireauth.currentUser.uid][item.msg_key]);
+    let hello2 = myroomlist.map((item) => clone_msglength2[fireauth.currentUser.uid][item.msg_key] ? clone_msglength2[fireauth.currentUser.uid][item.msg_key] : 0 );
     hello = hello.reduce((stack, el) => {
       return stack + el;
     }, 0);
